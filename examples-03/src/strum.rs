@@ -1,15 +1,14 @@
 #![allow(unused)]
+
 use anyhow::Result;
 use serde::Serialize;
 use strum::{
     Display, EnumCount, EnumDiscriminants, EnumIs, EnumIter, EnumString, IntoEnumIterator,
     IntoStaticStr, VariantNames,
 };
-
-#[allow(unused)]
 #[derive(Display, Debug, Serialize)]
 enum Color {
-    #[strum(serialize = "redred", to_string = "red")]
+    #[strum(serialize = "redred", to_string = "red")] // to_string 优先级更高
     Red,
     Green {
         range: usize,
@@ -21,6 +20,7 @@ enum Color {
         sat: usize,
     },
 }
+
 // EnumString           Converts strings to enum variants based on their name.
 // Display              Converts enum variants to strings
 // FromRepr             Convert from an integer to an enum.
@@ -37,8 +37,7 @@ enum Color {
 #[derive(
     Debug, EnumString, EnumCount, EnumDiscriminants, EnumIter, EnumIs, IntoStaticStr, VariantNames,
 )]
-#[allow(unused)]
-enum MyEnum {
+pub enum MyEnum {
     A,
     B(String),
     C,
@@ -50,7 +49,7 @@ fn main() -> Result<()> {
     MyEnum::iter().for_each(|v| println!("{:?}", v));
     println!("total: {:?}", MyEnum::COUNT);
 
-    let my_enum = MyEnum::B("hello".to_string());
+    let my_enum: MyEnum = MyEnum::B("hello".to_string());
     println!("{:?}", my_enum.is_b());
     let s: &'static str = my_enum.into();
     println!("{}", s);
@@ -70,4 +69,12 @@ fn main() -> Result<()> {
     println!("{}", red_str);
 
     Ok(())
+}
+#[cfg(test)]
+pub mod tests {
+
+    #[test]
+    pub fn entry() {
+        super::main().expect("xx");
+    }
 }

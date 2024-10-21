@@ -63,14 +63,14 @@ fn main() {
         ],
     );
 
-    serde_json::to_writer(&mut std::io::stdout(), &map).unwrap();
+    serde_json::to_writer(&mut io::stdout(), &map).unwrap();
     println!("{:?}", "---");
 
     echo_main("127.0.0.1:18080").expect("error running echo server: ");
 }
 
 #[cfg(test)]
-mod tests {
+pub mod tests {
     #[test]
     #[allow(unconditional_panic, unused_must_use)]
     #[should_panic(expected = "divide by zero")]

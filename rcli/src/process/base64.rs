@@ -31,7 +31,7 @@ pub fn process_decode(reader: &mut dyn Read, format: Base64Format) -> Result<Str
 }
 
 #[cfg(test)]
-mod tests {
+pub mod tests {
     use super::*;
     use crate::get_reader;
 

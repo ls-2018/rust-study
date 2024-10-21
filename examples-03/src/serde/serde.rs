@@ -1,6 +1,5 @@
 use core::fmt;
 use std::str::FromStr;
-
 use anyhow::Result;
 use base64::{engine::general_purpose::URL_SAFE_NO_PAD, Engine};
 use chacha20poly1305::{

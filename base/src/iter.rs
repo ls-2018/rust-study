@@ -3,7 +3,6 @@ use rand::random;
 use std::collections::{HashMap, HashSet};
 
 #[test]
-
 fn main() {
     use super::base::User;
     // use crate::garden::User; // 显式导入相对于crate根路径的语法项
@@ -74,7 +73,7 @@ use std::iter::Peekable;
 
 fn parse_number<I>(tokens: &mut Peekable<I>) -> u32
 where
-    I: Iterator<Item = char>,
+    I: Iterator<Item=char>,
 {
     let mut n = 0;
     loop {

@@ -6,7 +6,7 @@ pub fn echo(a: i32) -> i32 {
 }
 
 #[cfg(test)] // 这里配置测试模块
-mod tests {
+pub mod tests {
     use crate::vegetables::echo;
 
     #[test] // 具体的单元测试用例

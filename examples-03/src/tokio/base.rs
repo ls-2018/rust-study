@@ -6,16 +6,6 @@ use tokio::{
     time::sleep,
 };
 
-fn main() {
-    let handle = thread::spawn(|| {
-        let rt = Builder::new_current_thread().enable_all().build().unwrap();
-
-        rt.block_on(run(&rt));
-    });
-
-    handle.join().unwrap();
-}
-
 fn expensive_blocking_task(s: String) -> String {
     thread::sleep(Duration::from_millis(800));
     blake3::hash(s.as_bytes()).to_string()
@@ -33,4 +23,21 @@ async fn run(rt: &Runtime) {
         println!("result: {}", result);
     });
     sleep(Duration::from_secs(1)).await;
+}
+
+fn main() {
+    let handle = thread::spawn(|| {
+        let rt = Builder::new_current_thread().enable_all().build().unwrap();
+        rt.block_on(run(&rt));
+    });
+
+    handle.join().unwrap();
+}
+
+#[cfg(test)]
+mod test {
+    #[test]
+    pub fn entry() {
+        super::main();
+    }
 }

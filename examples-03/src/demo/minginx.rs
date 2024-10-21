@@ -1,4 +1,3 @@
-// it could be a proxy to a upstream
 use anyhow::Result;
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
@@ -15,14 +14,10 @@ struct Config {
     listen_addr: String,
 }
 
-#[tokio::main]
+// #[tokio::main]
 async fn main() -> Result<()> {
-    let layer = Layer::new().with_filter(LevelFilter::INFO);
-    tracing_subscriber::registry().with(layer).init();
     let config = resolve_config();
     let config = Arc::new(config);
-    info!("Upstream is {}", config.upstream_addr);
-    info!("Listening on {}", config.listen_addr);
     let listener = TcpListener::bind(&config.listen_addr).await?;
     loop {
         let (client, addr) = listener.accept().await?;

@@ -2,36 +2,19 @@ use anyhow::Result;
 use chrono::{DateTime, Datelike, Utc};
 use derive_builder::Builder;
 
-#[allow(unused)]
 #[derive(Debug, Builder)]
 #[builder(build_fn(name = "_priv_build"))]
 struct User {
     #[builder(setter(into))]
     name: String,
-
     #[builder(setter(into, strip_option), default)]
     email: Option<String>,
     #[builder(setter(custom))]
     dob: DateTime<Utc>,
-
     #[builder(setter(skip))]
     age: u32,
     #[builder(default = "vec![]", setter(each(name = "skill", into)))]
     skills: Vec<String>,
-}
-
-fn main() -> Result<()> {
-    let user = User::build()
-        .name("Alice")
-        .skill("programming")
-        .skill("debugging")
-        .email("tyr@awesome.com")
-        .dob("1990-01-01T00:00:00Z")
-        .build()?;
-
-    println!("{:?}", user);
-
-    Ok(())
 }
 
 impl User {
@@ -51,5 +34,26 @@ impl UserBuilder {
             .map(|dt| dt.with_timezone(&Utc))
             .ok();
         self
+    }
+}
+
+fn main() -> Result<()> {
+    let user = User::build()
+        .name("Alice".to_string())
+        .skill("programming")
+        .skill("debugging")
+        .email("tyr@awesome.com  ")
+        .dob("1990-01-01T00:00:00Z")
+        .build()?;
+
+    println!("{:?}", user);
+    Ok(())
+}
+
+#[cfg(test)]
+pub mod tests {
+    #[test]
+    pub fn entry() {
+        super::main().expect("------>");
     }
 }

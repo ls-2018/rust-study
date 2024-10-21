@@ -8,7 +8,7 @@ use axum::{
 use http::{header::LOCATION, HeaderMap, StatusCode};
 use nanoid::nanoid;
 use serde::{Deserialize, Serialize};
-use sqlx::{FromRow, PgPool};
+use sqlx::{FromRow, MySqlPool};
 use tokio::net::TcpListener;
 use tracing::{info, level_filters::LevelFilter, warn};
 use tracing_subscriber::{fmt::Layer, layer::SubscriberExt, util::SubscriberInitExt, Layer as _};
@@ -25,7 +25,7 @@ struct ShortenRes {
 
 #[derive(Debug, Clone)]
 struct AppState {
-    db: PgPool,
+    db: MySqlPool,
 }
 
 #[derive(Debug, FromRow)]
@@ -36,28 +36,7 @@ struct UrlRecord {
     url: String,
 }
 
-const LISTEN_ADDR: &str = "127.0.0.1:9876";
-
-#[tokio::main]
-async fn main() -> Result<()> {
-    let layer = Layer::new().with_filter(LevelFilter::INFO);
-    tracing_subscriber::registry().with(layer).init();
-
-    let url = "postgres://postgres:postgres@localhost:5432/shortener";
-    let state = AppState::try_new(url).await?;
-    info!("Connected to database: {url}");
-    let listener = TcpListener::bind(LISTEN_ADDR).await?;
-    info!("Listening on: {}", LISTEN_ADDR);
-
-    let app = Router::new()
-        .route("/", post(shorten))
-        .route("/:id", get(redirect))
-        .with_state(state);
-
-    axum::serve(listener, app.into_make_service()).await?;
-
-    Ok(())
-}
+const LISTEN_ADDR: &str = "127.0.0.1:8000";
 
 async fn shorten(
     State(state): State<AppState>,
@@ -89,13 +68,15 @@ async fn redirect(
 
 impl AppState {
     async fn try_new(url: &str) -> Result<Self> {
-        let pool = PgPool::connect(url).await?;
+        let pool = MySqlPool::connect(url).await?;
         // Create table if not exists
         sqlx::query(
             r#"
             CREATE TABLE IF NOT EXISTS urls (
-                id CHAR(6) PRIMARY KEY,
-                url TEXT NOT NULL UNIQUE
+              `id` char(6) NOT NULL,
+              `url` text NOT NULL,
+              PRIMARY KEY (`id`),
+              INDEX `ui`(`url`(20))
             )
             "#,
         )
@@ -106,21 +87,61 @@ impl AppState {
 
     async fn shorten(&self, url: &str) -> Result<String> {
         let id = nanoid!(6);
-        let ret: UrlRecord = sqlx::query_as(
-            "INSERT INTO urls (id, url) VALUES ($1, $2) ON CONFLICT(url) DO UPDATE SET url=EXCLUDED.url RETURNING id",
+        sqlx::query(
+            "INSERT INTO urls (id, url) VALUES (?,?) ON DUPLICATE KEY UPDATE url = VALUES(url)", // "INSERT INTO urls (id, url) VALUES ($1, $2) ON CONFLICT(url) DO UPDATE SET url=EXCLUDED.url RETURNING id",
         )
         .bind(&id)
         .bind(url)
-        .fetch_one(&self.db)
+        .execute(&self.db)
         .await?;
+        let ret: UrlRecord = sqlx::query_as("SELECT * FROM urls where id = ?")
+            .bind(&id)
+            .fetch_one(&self.db)
+            .await?;
         Ok(ret.id)
     }
 
-    async fn get_url(&self, id: &str) -> anyhow::Result<String> {
-        let ret: UrlRecord = sqlx::query_as("SELECT url FROM urls WHERE id = $1")
-            .bind(id)
+    async fn get_url(&self, id: &str) -> Result<String> {
+        let ret: UrlRecord = sqlx::query_as("SELECT url FROM urls WHERE id = ?")
+            .bind(&id)
             .fetch_one(&self.db)
             .await?;
         Ok(ret.url)
+    }
+}
+
+// #[tokio::main]
+async fn main() -> Result<()> {
+    let layer = Layer::new().with_filter(LevelFilter::INFO);
+    tracing_subscriber::registry().with(layer).init();
+
+    let url = "mysql://root:root@localhost:3306/shortener";
+    let state = AppState::try_new(url).await?;
+    info!("Connected to database: {url}");
+    let listener = TcpListener::bind(LISTEN_ADDR).await?;
+    info!("Listening on: {}", LISTEN_ADDR);
+
+    let app = Router::new()
+        .route("/", post(shorten))
+        .route("/:id", get(redirect))
+        .with_state(state);
+
+    axum::serve(listener, app.into_make_service()).await?;
+
+    Ok(())
+}
+
+#[cfg(test)]
+pub mod tests {
+    use tokio::runtime::Builder;
+
+    #[test]
+    pub fn entry() {
+        Builder::new_current_thread()
+            .enable_all()
+            .build()
+            .unwrap()
+            .block_on(super::main())
+            .expect("TODO: panic message");
     }
 }

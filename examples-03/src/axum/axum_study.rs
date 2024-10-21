@@ -28,15 +28,27 @@ struct UserUpdate {
     skills: Option<Vec<String>>,
 }
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let console = fmt::Layer::new()
-        .with_span_events(FmtSpan::CLOSE)
-        .pretty()
-        .with_filter(LevelFilter::DEBUG);
+#[instrument]
+async fn user_handler(State(user): State<Arc<Mutex<User>>>) -> Json<User> {
+    (*user.lock().unwrap()).clone().into()
+}
 
-    tracing_subscriber::registry().with(console).init();
-
+#[instrument]
+async fn update_handler(
+    State(user): State<Arc<Mutex<User>>>,
+    Json(user_update): Json<UserUpdate>,
+) -> Json<User> {
+    let mut user = user.lock().unwrap();
+    if let Some(age) = user_update.age {
+        user.age = age;
+    }
+    if let Some(skills) = user_update.skills {
+        user.skills = skills;
+    }
+    (*user).clone().into()
+}
+// #[tokio::main]
+async fn main() -> anyhow::Result<()> {
     let user = User {
         name: "Alice".to_string(),
         age: 30,
@@ -57,22 +69,17 @@ async fn main() -> Result<()> {
     Ok(())
 }
 
-#[instrument]
-async fn user_handler(State(user): State<Arc<Mutex<User>>>) -> Json<User> {
-    (*user.lock().unwrap()).clone().into()
-}
+#[cfg(test)]
+pub mod tests {
+    use tokio::runtime::Builder;
 
-#[instrument]
-async fn update_handler(
-    State(user): State<Arc<Mutex<User>>>,
-    Json(user_update): Json<UserUpdate>,
-) -> Json<User> {
-    let mut user = user.lock().unwrap();
-    if let Some(age) = user_update.age {
-        user.age = age;
+    #[test]
+    pub fn entry() {
+        Builder::new_current_thread()
+            .enable_all()
+            .build()
+            .unwrap()
+            .block_on(super::main())
+            .expect("TODO: panic message");
     }
-    if let Some(skills) = user_update.skills {
-        user.skills = skills;
-    }
-    (*user).clone().into()
 }

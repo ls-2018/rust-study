@@ -61,7 +61,7 @@ async fn file_handler(
 }
 
 #[cfg(test)]
-mod tests {
+pub mod tests {
     use super::*;
 
     #[tokio::test]

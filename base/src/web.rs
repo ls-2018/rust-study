@@ -63,7 +63,7 @@ fn gcd(mut n: u64, mut m: u64) -> u64 {
             // n = t;
             std::mem::swap(&mut m, &mut n);
         }
-        m %=n;
+        m %= n;
     }
     n
 }

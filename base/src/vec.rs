@@ -3,8 +3,6 @@
 
 #[test]
 fn vec_test() {
-
-
     let s1 = String::from("aaa");
 
     let s2 = String::from("bbb");

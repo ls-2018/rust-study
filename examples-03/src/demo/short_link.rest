@@ -1,0 +1,11 @@
+POST http://localhost:8000/
+Content-Type: application/json
+
+{
+  "url": "https://www.rust-lang.org/"
+}
+
+
+
+###
+GET http://localhost:8000/LUJpio

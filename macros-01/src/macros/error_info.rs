@@ -88,7 +88,7 @@ pub(crate) fn process_error_info(input: DeriveInput) -> TokenStream {
 }
 
 #[cfg(test)]
-mod tests {
+pub mod tests {
     use super::*;
 
     #[test]

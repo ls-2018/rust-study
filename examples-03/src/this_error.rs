@@ -1,6 +1,8 @@
+#![allow(dead_code)]
+#![allow(unused)]
+
 use anyhow::Context;
 use std::{fs, mem::size_of, num::ParseIntError};
-
 use thiserror::Error;
 
 #[derive(Error, Debug)]
@@ -8,7 +10,7 @@ pub enum MyError {
     #[error("I/O error: {0}")]
     Io(#[from] std::io::Error),
     #[error("Parse error: {0}")]
-    Parse(#[from] std::num::ParseIntError),
+    Parse(#[from] ParseIntError),
     #[error("Serialize json error: {0}")]
     Serialize(#[from] serde_json::Error),
 
@@ -19,13 +21,16 @@ pub enum MyError {
     Custom(String),
 }
 
-#[allow(unused)]
 #[derive(Debug)]
 pub struct BigError {
     a: String,
     b: Vec<String>,
     c: [u8; 64],
     d: u64,
+}
+
+pub fn fail_with_error() -> Result<(), MyError> {
+    Err(MyError::Custom("This is a custom error".to_string()))
 }
 
 fn main() -> Result<(), anyhow::Error> {
@@ -42,7 +47,7 @@ fn main() -> Result<(), anyhow::Error> {
     println!("size of string is {}", size_of::<String>());
     println!("size of MyError is {}", size_of::<MyError>());
 
-    let filename = "non-existent-file.txt";
+    let filename = "/tmp/non-existent-file.txt";
     let _fd =
         fs::File::open(filename).with_context(|| format!("Can not find file: {}", filename))?;
 
@@ -51,6 +56,10 @@ fn main() -> Result<(), anyhow::Error> {
     Ok(())
 }
 
-fn fail_with_error() -> Result<(), MyError> {
-    Err(MyError::Custom("This is a custom error".to_string()))
+#[cfg(test)]
+pub mod tests {
+    #[test]
+    pub fn entry() {
+        super::main().expect("TODO: panic message");
+    }
 }

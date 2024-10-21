@@ -85,8 +85,8 @@ struct Foo;
 fn main112() {
     let integer = Point::<u8> { x: 5, y: 10 }; // 一个整数point
     let float = Point { x: 1.0, y: 4.0 }; // 一个浮点数point
-    // let p = Point { x: Foo, y: Foo };  // 初始化一个Point<T> 实例
-    // print(p);
+                                          // let p = Point { x: Foo, y: Foo };  // 初始化一个Point<T> 实例
+                                          // print(p);
     println!("{:?}", integer);
 
     println!("{:?}", float);
@@ -237,7 +237,9 @@ fn main112() {
     //     Some(v) => *v = 42,
     //     None => {}
     // }
-    if let Some(v) = x.as_mut() { *v = 42 }
+    if let Some(v) = x.as_mut() {
+        *v = 42
+    }
 
     assert_eq!(x, Some(42));
 
@@ -303,7 +305,9 @@ fn main112() {
         //     Err(..) => {}
         // }
         // 等价
-        if let Ok(n) = num.parse::<i32>().map(|i| i * 2) { println!("{n}") }
+        if let Ok(n) = num.parse::<i32>().map(|i| i * 2) {
+            println!("{n}")
+        }
     }
 
     let x: Result<i32, &str> = Ok(-3);
@@ -386,7 +390,7 @@ impl TraitA2 for TypeA {
     const LEN: u32 = 123; // 具化关联类型为String
 }
 
-struct Foo2<T: TraitA2<MYType=String>> {
+struct Foo2<T: TraitA2<MYType = String>> {
     // 这里在约束表达式中对关联类型做了具化
     x: T,
 }
@@ -451,7 +455,8 @@ impl<T, U> TraitA55<T> for Atype55<U>
 where
     T: Debug,     // 在 impl 时添加了约束
     U: PartialEq, // 在 impl 时添加了约束
-{}
+{
+}
 
 struct Btype;
 
