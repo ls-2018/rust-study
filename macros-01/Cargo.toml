@@ -1,0 +1,17 @@
+[package]
+name = "macros"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+
+
+[lib]
+proc-macro = true
+
+[dependencies]
+darling.workspace = true
+proc-macro2.workspace = true
+syn.workspace = true
+quote.workspace = true
+enum_dispatch.workspace = true
+anyhow.workspace = true

@@ -1,0 +1,31 @@
+[package]
+name = "rcli"
+version = "0.1.0"
+authors = ["Tyr Chen <tyr.chen@gmail.com>"]
+edition = "2021"
+license = "MIT"
+description = "A short description of rcli"
+
+[dependencies]
+anyhow.workspace = true
+axum.workspace = true
+base64.workspace = true
+clap.workspace = true
+csv.workspace = true
+enum_dispatch.workspace = true
+rand.workspace = true
+serde_json.workspace = true
+serde_yaml.workspace = true
+time.workspace = true
+tokio.workspace = true
+tracing-subscriber.workspace = true
+tower-http.workspace = true
+tracing-appender.workspace = true
+tracing.workspace = true
+zxcvbn.workspace = true
+
+
+
+[[bin]]
+name = "rcli"
+path = "src/main.rs"

@@ -1,0 +1,122 @@
+
+// DeriveInput {
+//     attrs: [],
+//     vis: Visibility::Inherited,
+//     ident: Ident(
+//         Direction,
+//     ),
+//     generics: Generics {
+//         lt_token: None,
+//         params: [],
+//         gt_token: None,
+//         where_clause: None,
+//     },
+//     data: Data::Enum {
+//         enum_token: Enum,
+//         brace_token: Brace,
+//         variants: [
+//             Variant {
+//                 attrs: [],
+//                 ident: Ident(
+//                     Down,
+//                 ),
+//                 fields: Fields::Unnamed {
+//                     paren_token: Paren,
+//                     unnamed: [
+//                         Field {
+//                             attrs: [],
+//                             vis: Visibility::Inherited,
+//                             mutability: FieldMutability::None,
+//                             ident: None,
+//                             colon_token: None,
+//                             ty: Type::Path {
+//                                 qself: None,
+//                                 path: Path {
+//                                     leading_colon: None,
+//                                     segments: [
+//                                         PathSegment {
+//                                             ident: Ident(
+//                                                 u32,
+//                                             ),
+//                                             arguments: PathArguments::None,
+//                                         },
+//                                     ],
+//                                 },
+//                             },
+//                         },
+//                     ],
+//                 },
+//                 discriminant: None,
+//             },
+//             Comma,
+//             Variant {
+//                 attrs: [],
+//                 ident: Ident(
+//                     Right,
+//                 ),
+//                 fields: Fields::Named {
+//                     brace_token: Brace,
+//                     named: [
+//                         Field {
+//                             attrs: [],
+//                             vis: Visibility::Inherited,
+//                             mutability: FieldMutability::None,
+//                             ident: Some(
+//                                 Ident(
+//                                     a,
+//                                 ),
+//                             ),
+//                             colon_token: Some(
+//                                 Colon,
+//                             ),
+//                             ty: Type::Path {
+//                                 qself: None,
+//                                 path: Path {
+//                                     leading_colon: None,
+//                                     segments: [
+//                                         PathSegment {
+//                                             ident: Ident(
+//                                                 u32,
+//                                             ),
+//                                             arguments: PathArguments::None,
+//                                         },
+//                                     ],
+//                                 },
+//                             },
+//                         },
+//                         Comma,
+//                         Field {
+//                             attrs: [],
+//                             vis: Visibility::Inherited,
+//                             mutability: FieldMutability::None,
+//                             ident: Some(
+//                                 Ident(
+//                                     b,
+//                                 ),
+//                             ),
+//                             colon_token: Some(
+//                                 Colon,
+//                             ),
+//                             ty: Type::Path {
+//                                 qself: None,
+//                                 path: Path {
+//                                     leading_colon: None,
+//                                     segments: [
+//                                         PathSegment {
+//                                             ident: Ident(
+//                                                 u32,
+//                                             ),
+//                                             arguments: PathArguments::None,
+//                                         },
+//                                     ],
+//                                 },
+//                             },
+//                         },
+//                     ],
+//                 },
+//                 discriminant: None,
+//             },
+//             Comma,
+//         ],
+//     },
+// }
