@@ -63,18 +63,20 @@ const JWT_ISS: &str = "chat_server";
 const JWT_AUD: &str = "chat_web";
 #[cfg(test)]
 mod tests {
-    use jwt_simple::prelude::*;
+    use super::{verify_token, TokenVerify, JWT_AUD, JWT_DURATION, JWT_ISS};
+    use crate::axum::User;
+    use crate::{KEY_PEM, PUB_CEM};
     use anyhow::Result;
-    use axum::{body::Body, middleware::from_fn_with_state, routing::get, Router};
-    use std::sync::Arc;
     use axum::extract::Request;
     use axum::response::IntoResponse;
+    use axum::{body::Body, middleware::from_fn_with_state, routing::get, Router};
     use http::StatusCode;
-    use jwt_simple::prelude::{Claims, Duration, Ed25519KeyPair, Ed25519PublicKey, EdDSAKeyPairLike, VerificationOptions};
+    use jwt_simple::prelude::*;
+    use jwt_simple::prelude::{
+        Claims, Duration, Ed25519KeyPair, Ed25519PublicKey, EdDSAKeyPairLike, VerificationOptions,
+    };
+    use std::sync::Arc;
     use tower::ServiceExt;
-    use crate::axum::{User};
-    use crate::{KEY_PEM, PUB_CEM};
-    use super::{verify_token, TokenVerify, JWT_AUD, JWT_DURATION, JWT_ISS};
 
     #[derive(Clone)]
     struct AppState(Arc<AppStateInner>);

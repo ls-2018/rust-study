@@ -2,8 +2,8 @@ use serde_with::serde_derive::{Deserialize, Serialize};
 
 mod axum_study;
 mod layer;
-mod opentelemetry_otlp;
 mod middwares;
+mod opentelemetry_otlp;
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub struct User {

@@ -1,6 +1,6 @@
 #![allow(unused)]
 
-use axum::extract::Path;
+use axum::extract::{FromRequestParts, Path};
 use axum::response::IntoResponse;
 use axum::{extract::Request, routing::get, Router};
 use http::header::LOCATION;
@@ -29,7 +29,7 @@ use tracing_subscriber::{
 #[instrument(fields(http.uri = req.uri().path(), http.method = req.method().as_str()))]
 async fn index_handler(req: Request) -> String {
     let (parts, body) = req.into_parts();
-    assert_eq!(parts. method, Method::GET);
+    assert_eq!(parts.method, Method::GET);
 
     debug!("index handler started");
     sleep(Duration::from_millis(10)).await;
@@ -37,6 +37,7 @@ async fn index_handler(req: Request) -> String {
     info!(http.status_code = 200, "index handler completed");
     ret
 }
+
 async fn index_handler_id(Path(id): Path<String>) -> anyhow::Result<impl IntoResponse, StatusCode> {
     let mut headers = HeaderMap::new();
     headers.insert(LOCATION, "url".parse().unwrap());

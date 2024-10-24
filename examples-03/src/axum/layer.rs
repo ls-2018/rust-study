@@ -1,4 +1,3 @@
-
 //
 // pub(crate) async fn sse_handler(
 //     Extension(user): Extension<User>,

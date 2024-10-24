@@ -5,7 +5,6 @@ const JWT_DURATION: u64 = 60 * 60 * 24 * 7;
 const JWT_ISS: &str = "chat_server";
 const JWT_AUD: &str = "chat_web";
 
-
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 struct User {
     pub id: i64,
@@ -18,14 +17,12 @@ struct User {
 // go run $(go env GOROOT)/src/crypto/tls/generate_cert.go -host ca -ed25519
 // openssl x509 -inform PEM -in cert.pem -pubkey -noout
 
-
-
 #[cfg(test)]
 mod tests {
+    use super::*;
+    use crate::{KEY_PEM, PUB_CEM};
     use anyhow::Error;
     use jwt_simple::prelude::*;
-    use crate::{KEY_PEM, PUB_CEM};
-    use super::*;
 
     #[test]
     fn hs256key() -> Result<(), anyhow::Error> {
