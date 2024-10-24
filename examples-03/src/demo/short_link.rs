@@ -29,6 +29,7 @@ struct AppState {
 }
 
 #[derive(Debug, FromRow)]
+#[sqlx(type_name = "urls", rename_all = "snake_case")]
 struct UrlRecord {
     #[sqlx(default)]
     id: String,
@@ -110,7 +111,7 @@ impl AppState {
     }
 }
 
-// #[tokio::main]
+#[tokio::main]
 async fn main() -> Result<()> {
     let layer = Layer::new().with_filter(LevelFilter::INFO);
     tracing_subscriber::registry().with(layer).init();
@@ -130,18 +131,11 @@ async fn main() -> Result<()> {
 
     Ok(())
 }
-
 #[cfg(test)]
 pub mod tests {
-    use tokio::runtime::Builder;
-
-    #[test]
-    pub fn entry() {
-        Builder::new_current_thread()
-            .enable_all()
-            .build()
-            .unwrap()
-            .block_on(super::main())
-            .expect("TODO: panic message");
+    use super::*;
+    #[tokio::test]
+    async fn entry() -> Result<()> {
+        main()
     }
 }

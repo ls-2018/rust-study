@@ -1,3 +1,5 @@
+#![allow(unused)]
+
 use anyhow::Result;
 use chrono::{DateTime, Datelike, Utc};
 use derive_builder::Builder;

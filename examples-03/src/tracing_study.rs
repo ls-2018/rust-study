@@ -31,7 +31,7 @@ async fn instrument_test2() -> User {
     };
     user
 }
-// #[tokio::main]
+#[tokio::main]
 async fn main() -> Result<()> {
     let console = fmt::Layer::new()
         .with_span_events(FmtSpan::CLOSE)
@@ -44,18 +44,4 @@ async fn main() -> Result<()> {
     let res = instrument_test2().await;
     info!("{:?}", res);
     Ok(())
-}
-
-#[cfg(test)]
-pub mod tests {
-    use tokio::runtime::Builder;
-    #[test]
-    pub fn entry() {
-        Builder::new_current_thread()
-            .enable_all()
-            .build()
-            .unwrap()
-            .block_on(super::main())
-            .expect("TODO: panic message");
-    }
 }

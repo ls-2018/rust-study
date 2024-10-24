@@ -1,8 +1,10 @@
+#![allow(unused)]
+
 use axum::extract::Path;
 use axum::response::IntoResponse;
 use axum::{extract::Request, routing::get, Router};
 use http::header::LOCATION;
-use http::{HeaderMap, StatusCode};
+use http::{HeaderMap, Method, StatusCode};
 use opentelemetry::KeyValue;
 use opentelemetry_otlp::WithExportConfig;
 use opentelemetry_sdk::{
@@ -26,6 +28,9 @@ use tracing_subscriber::{
 
 #[instrument(fields(http.uri = req.uri().path(), http.method = req.method().as_str()))]
 async fn index_handler(req: Request) -> String {
+    let (parts, body) = req.into_parts();
+    assert_eq!(parts. method, Method::GET);
+
     debug!("index handler started");
     sleep(Duration::from_millis(10)).await;
     let ret = long_task().await;
@@ -91,7 +96,7 @@ pub fn init_tracer() -> anyhow::Result<Tracer> {
     Ok(tracer)
 }
 
-// #[tokio::main]
+#[tokio::main]
 async fn main() -> anyhow::Result<()> {
     // console layer for tracing-subscriber
     let console = fmt::Layer::new()
@@ -127,18 +132,11 @@ async fn main() -> anyhow::Result<()> {
     axum::serve(listener, app.into_make_service()).await?;
     Ok(())
 }
-
 #[cfg(test)]
 pub mod tests {
-    use tokio::runtime::Builder;
-
-    #[test]
-    pub fn entry() {
-        Builder::new_current_thread()
-            .enable_all()
-            .build()
-            .unwrap()
-            .block_on(super::main())
-            .expect("TODO: panic message");
+    use super::*;
+    #[tokio::test]
+    async fn entry() -> anyhow::Result<()> {
+        main()
     }
 }

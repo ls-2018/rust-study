@@ -1,3 +1,5 @@
+#![allow(unused)]
+
 use anyhow::Result;
 use dashmap::DashMap;
 use futures::{stream::SplitStream, SinkExt, StreamExt};
@@ -30,7 +32,7 @@ enum Message {
     Chat { sender: String, content: String },
 }
 
-// #[tokio::main]
+#[tokio::main]
 async fn main() -> Result<()> {
     let layer = Layer::new().with_filter(LevelFilter::INFO);
     tracing_subscriber::registry().with(layer).init();

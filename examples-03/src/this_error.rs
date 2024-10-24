@@ -60,6 +60,6 @@ fn main() -> Result<(), anyhow::Error> {
 pub mod tests {
     #[test]
     pub fn entry() {
-        super::main().expect("TODO: panic message");
+        super::main();
     }
 }

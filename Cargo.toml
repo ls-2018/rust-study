@@ -8,7 +8,7 @@ error-code = { path = "error-code-02" }
 examples = { path = "examples-03" }
 rcli = { path = "rcli" }
 base = { path = "base" }
-anyhow = "1.0.81"
+anyhow = "1.0.91"
 # 从 tokenstream indet 中 获取有用的值
 darling = "0.20.8"
 # TokenTtream 相关的结构、测试
@@ -21,11 +21,10 @@ futures = "0.3.30"
 enum_dispatch = "0.3.13"
 http = "1"
 base64 = "0.22.0"
-axum = { version = "0.7.5", features = ["http2", "query", "tracing"] }
 backtrace = "0.3.71"
 # 加密算法
 blake3 = "1.5.4"
-bytes = "1.7.2"
+bytes = "1.8.0"
 clap = { version = "4.5.20", features = ["derive"] }
 csv = "1.3.0"
 ed25519-dalek = "2.1.1"
@@ -34,37 +33,41 @@ serde_with = "3.7.0"
 serde_json = "1.0.128"
 serde_yaml = "0.9.34"
 time = { version = "0.3.36", features = ["formatting", "parsing", "macros", "std", "local-offset"] }
+tower = "0.4.13"
 tokio = { version = "1.40.0", features = ["rt", "rt-multi-thread", "macros", "net", "fs"] }
 tokio-util = { version = "0.7.10", features = ["codec"] }
 tower-http = { version = "0.5.2", features = ["compression-full", "cors", "trace", "fs"] }
+tokio-stream = { version = "0.1.16", features = ["sync"] }
+axum = { version = "0.7.5", features = ["http2", "query", "tracing","multipart",] }
+axum-extra = {version =  "0.9.4", features = ["typed-header"] }
+reqwest = {version =  "0.12.7", features = ["stream","multipart","json"]  }
+actix-web = "4.9.0"
 zxcvbn = "3.1.0"
 tracing = "0.1.40"
 tracing-appender = "0.2.3"
 # 通过 RUST_LOG 过滤日志，低于配置级别的日志不会显示
 tracing-subscriber={version = "0.3.18",features = ["local-time", "time", "env-filter"]}
-chacha20poly1305 = "0.10.1"
-chrono = { version = "0.4.37", features = ["serde"] }
+tracing-opentelemetry = "0.23.0"
+console-subscriber = "0.2.0"
 opentelemetry = "0.22.0"
 opentelemetry-otlp = { version = "0.15.0", features = ["tonic"] }
 opentelemetry_sdk = { version = "0.22.1", features = ["rt-tokio"] }
-sqlx = { version = "0.8.1", features = ["postgres","mysql", "runtime-tokio", "tls-rustls"] }
-tracing-opentelemetry = "0.23.0"
-console-subscriber = "0.2.0"
+sqlx = { version = "0.8.1", features = ["postgres","mysql", "runtime-tokio", "tls-rustls",  "chrono",] }
+
+chacha20poly1305 = "0.10.1"
+chrono = { version = "0.4.37", features = ["serde"] }
 dashmap = "5.5.3"
 derive_builder = "0.20.0"
 # 派生大量常用特性，极大地减少了相应的样板代码。From、Into、Add、Subtract、Mul、Div、BitAnd、BitOr、BitXor、Not、PartialEq、PartialOrd、Debug、Display、Clone、Copy、Hash、Serialize、Deserialize等
-derive_more = "0.99.17"
+derive_more = { version = "1.0.0", features = ["full"] }
 loom = "0.7.1"
 nanoid = "0.4.0"
 #提供了一系列宏和特性，使得枚举与字符串的交互变得更加简单和高效。
 strum = { version = "0.26.2", features = ["derive"] }
-tokio-stream = "0.1.15"
-reqwest = "0.12.7"
 rayon = "1.10.0"
 async-std = { version = "1", features = ["unstable"] }
 log = "0.4.22"
 surf = "2.3.2"
-actix-web = "4.9.0"
 crates-io = "0.40.4"
 rand = "0.8.5"
 num = "0.4.3"
@@ -74,3 +77,7 @@ unicode-normalization = "0.1.24"
 thiserror = "1.0.64"
 num-complex = "0.4.6"
 features = "0.10.0"
+uuid = { version = "1.8.0", features = ["v7", "serde"] }
+utoipa = { version = "4.2.0", features = ["axum_extras", "chrono"] }
+jwt-simple = "0.12.10"
+argon2 = "0.5.3"

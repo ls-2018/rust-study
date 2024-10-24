@@ -1,3 +1,5 @@
+#![allow(unused)]
+
 use anyhow::Result;
 use axum::{
     extract::State,
@@ -7,9 +9,8 @@ use axum::{
 use serde::{Deserialize, Serialize};
 use std::sync::{Arc, Mutex};
 use tokio::net::TcpListener;
-use tracing::{info, instrument, level_filters::LevelFilter};
+use tracing::{info, instrument };
 use tracing_subscriber::{
-    fmt::{self, format::FmtSpan},
     layer::SubscriberExt,
     util::SubscriberInitExt,
     Layer as _,
@@ -47,8 +48,8 @@ async fn update_handler(
     }
     (*user).clone().into()
 }
-// #[tokio::main]
-async fn main() -> anyhow::Result<()> {
+#[tokio::main]
+async fn main() -> Result<()> {
     let user = User {
         name: "Alice".to_string(),
         age: 30,
@@ -71,15 +72,9 @@ async fn main() -> anyhow::Result<()> {
 
 #[cfg(test)]
 pub mod tests {
-    use tokio::runtime::Builder;
-
-    #[test]
-    pub fn entry() {
-        Builder::new_current_thread()
-            .enable_all()
-            .build()
-            .unwrap()
-            .block_on(super::main())
-            .expect("TODO: panic message");
+    use super::*;
+    #[tokio::test]
+    async fn entry() -> Result<()> {
+        main()
     }
 }

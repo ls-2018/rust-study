@@ -38,12 +38,23 @@ fn main() {
     // 获取集合元素所有权的迭代器，对应方法为 into_iter()
     // 实际会复制一份这个数组
 
+    for _ in 1..10000 {
+        x();
+    }
+}
+
+fn x() {
     use rand::random;
     use std::iter::from_fn;
-
-    let x: Vec<_> = from_fn(|| Some((random::<i32>() - random::<i32>()).abs()))
-        .take(3)
-        .collect();
+    let x: Vec<_> = from_fn(|| {
+        let a = random::<i32>();
+        let b = random::<i32>();
+        // let c = a - b; // 可能会溢出
+        let c = a.wrapping_sub(b);
+        Some(c.abs())
+    })
+    .take(3)
+    .collect();
     println!("{:?}", x);
 }
 
@@ -73,7 +84,7 @@ use std::iter::Peekable;
 
 fn parse_number<I>(tokens: &mut Peekable<I>) -> u32
 where
-    I: Iterator<Item=char>,
+    I: Iterator<Item = char>,
 {
     let mut n = 0;
     loop {

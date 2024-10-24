@@ -2,4 +2,3 @@
 output.*
 .idea
 rcli/logs
-base/log-file-name

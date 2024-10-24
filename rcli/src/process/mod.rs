@@ -1,3 +1,4 @@
+#![allow(ambiguous_glob_reexports)]
 mod base64;
 mod csv_convert;
 mod gen_pass;

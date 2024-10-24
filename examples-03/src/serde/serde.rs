@@ -1,5 +1,4 @@
-use core::fmt;
-use std::str::FromStr;
+#![allow(unused)]
 use anyhow::Result;
 use base64::{engine::general_purpose::URL_SAFE_NO_PAD, Engine};
 use chacha20poly1305::{
@@ -7,8 +6,10 @@ use chacha20poly1305::{
     AeadCore, ChaCha20Poly1305, KeyInit,
 };
 use chrono::{DateTime, Utc};
+use core::fmt;
 use serde::{Deserialize, Serialize};
 use serde_with::{serde_as, DisplayFromStr};
+use std::str::FromStr;
 
 const KEY: &[u8] = b"01234567890123456789012345678901";
 
@@ -33,6 +34,8 @@ struct User {
     sensitive: SensitiveData,
     #[serde_as(as = "Vec<DisplayFromStr>")]
     url: Vec<http::Uri>,
+    #[serde(skip)]
+    password_hash: String,
 }
 
 #[derive(Debug)]
@@ -58,6 +61,7 @@ fn main() -> Result<()> {
         data: vec![1, 2, 3, 4, 5],
         sensitive: SensitiveData::new("secret"),
         url: vec!["https://example.com".parse()?],
+        password_hash: "Some".parse()?,
     };
 
     let json = serde_json::to_string(&user)?;

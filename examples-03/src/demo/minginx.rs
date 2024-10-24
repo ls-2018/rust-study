@@ -1,3 +1,4 @@
+#![allow(unused)]
 use anyhow::Result;
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
@@ -6,7 +7,6 @@ use tokio::{
     net::{TcpListener, TcpStream},
 };
 use tracing::{info, level_filters::LevelFilter, warn};
-use tracing_subscriber::{fmt::Layer, layer::SubscriberExt, util::SubscriberInitExt, Layer as _};
 
 #[derive(Serialize, Deserialize, Clone)]
 struct Config {
@@ -14,7 +14,7 @@ struct Config {
     listen_addr: String,
 }
 
-// #[tokio::main]
+#[tokio::main]
 async fn main() -> Result<()> {
     let config = resolve_config();
     let config = Arc::new(config);
@@ -53,5 +53,13 @@ fn resolve_config() -> Config {
     Config {
         upstream_addr: "0.0.0.0:8080".to_string(),
         listen_addr: "0.0.0.0:8081".to_string(),
+    }
+}
+#[cfg(test)]
+pub mod tests {
+    use super::*;
+    #[tokio::test]
+    async fn entry() -> Result<()> {
+        main()
     }
 }

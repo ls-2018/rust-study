@@ -15,7 +15,7 @@ pub fn write_log_entry(entry: std::fmt::Arguments) {
     let mut log_file = OpenOptions::new()
         .append(true)
         .create(true)
-        .open("log-file-name")
+        .open("/tmp/log-file-name")
         .expect("failed to open log file");
 
     log_file.write_fmt(entry).expect("failed to write to log");
@@ -51,7 +51,7 @@ fn f() {
     let x = "asdasd".to_string();
 
     use std::fs::File;
-    let mut local_file = File::create("hello.txt").expect("");
+    let mut local_file = File::create("/tmp/hello.txt").expect("");
     say_hello(&mut local_file).expect("TODO: panic message"); // 正常
     let mut bytes = vec![];
     say_hello(&mut bytes).expect("TODO: panic message"); // 同样正常

@@ -5,6 +5,7 @@ fn worker(mut rx: mpsc::Receiver<String>) -> thread::JoinHandle<()> {
     thread::spawn(move || {
         let (sender, receiver) = std::sync::mpsc::channel();
         while let Some(s) = rx.blocking_recv() {
+            // 🤡
             let sender_clone = sender.clone();
             thread::spawn(move || {
                 let ret = expensive_blocking_task(s);
@@ -21,7 +22,7 @@ fn expensive_blocking_task(s: String) -> String {
     blake3::hash(s.as_bytes()).to_string()
 }
 
-// #[tokio::main]
+#[tokio::main]
 async fn main() {
     // tokio task send string to expensive_blocking_task for execution
     let (tx, rx) = mpsc::channel(32);
@@ -38,17 +39,11 @@ async fn main() {
 
     handle.join().unwrap();
 }
-
 #[cfg(test)]
-mod test {
-    use tokio::runtime::Builder;
-
-    #[test]
-    pub fn entry() {
-        Builder::new_current_thread()
-            .enable_all()
-            .build()
-            .unwrap()
-            .block_on(super::main());
+pub mod tests {
+    use super::*;
+    #[tokio::test]
+    async fn entry() {
+        main();
     }
 }
