@@ -4,7 +4,6 @@
 use anyhow::Result;
 use bytes::{BufMut, BytesMut};
 
-
 fn main() -> Result<()> {
     let mut buf = BytesMut::with_capacity(1024);
     buf.extend_from_slice(b"hello world\n");

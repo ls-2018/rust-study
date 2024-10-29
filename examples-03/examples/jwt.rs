@@ -62,6 +62,4 @@ mod tests {
     }
 }
 
-fn main() {
-
-}
+fn main() {}
