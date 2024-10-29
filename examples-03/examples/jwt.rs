@@ -61,3 +61,7 @@ mod tests {
         Ok(())
     }
 }
+
+fn main() {
+
+}

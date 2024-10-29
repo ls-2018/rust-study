@@ -114,7 +114,7 @@ mod tests {
         let dk = Ed25519PublicKey::from_pem(PUB_CEM)?;
         let state = AppState(Arc::new(AppStateInner { ek, dk }));
 
-        let user = User::new(1, "Tyr Chen", "tchen@acme.org");
+        let user = User::default();
         let claims = Claims::with_custom_claims(user, Duration::from_secs(JWT_DURATION));
         let claims = claims.with_issuer(JWT_ISS).with_audience(JWT_AUD);
         let token = state.0.ek.sign(claims)?;

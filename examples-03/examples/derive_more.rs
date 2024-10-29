@@ -18,7 +18,6 @@ enum MyEnum {
     #[display("nothing")]
     Nothing,
 }
-
 fn main() -> Result<()> {
     let my_int: MyInt = 10.into();
     let v = my_int + 20.into();
@@ -32,13 +31,4 @@ fn main() -> Result<()> {
     println!("e: {:?}, e1: {:?}, e2: {:?}", e, e1, e2);
 
     Ok(())
-}
-
-#[cfg(test)]
-pub mod tests {
-
-    #[test]
-    pub fn entry() {
-        super::main().expect("TODO: panic message");
-    }
 }

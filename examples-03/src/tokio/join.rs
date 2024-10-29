@@ -17,14 +17,8 @@ async fn main() {
 
 #[cfg(test)]
 mod test {
-    use tokio::runtime::Builder;
-
-    #[test]
-    pub fn entry() {
-        Builder::new_current_thread()
-            .enable_all()
-            .build()
-            .unwrap()
-            .block_on(super::main());
+    #[tokio::test]
+    async fn entry() {
+        super::main().await
     }
 }

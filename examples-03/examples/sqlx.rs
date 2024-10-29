@@ -4,6 +4,7 @@ use sqlx::postgres::PgListener;
 use sqlx::Error;
 use tracing::{info, warn};
 
+#[tokio::main]
 async fn main() -> anyhow::Result<()> {
     let mut listener = PgListener::connect("").await?;
     listener.listen("chat_updated").await?;

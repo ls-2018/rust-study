@@ -55,11 +55,3 @@ fn main() -> Result<(), anyhow::Error> {
 
     Ok(())
 }
-
-#[cfg(test)]
-pub mod tests {
-    #[test]
-    pub fn entry() {
-        super::main();
-    }
-}

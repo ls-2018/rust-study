@@ -1,21 +1,7 @@
-mod bytes;
-mod derive_more;
-mod enum_dispatch;
-mod struct_builder;
-mod strum;
-mod this_error;
-mod tracing_study;
-
 mod axum;
 mod demo;
 mod serde;
 mod tokio;
-
-mod argon;
-mod jwt;
-mod reqwest;
-mod sha;
-mod sqlx;
 
 pub const KEY_PEM: &str = "-----BEGIN PRIVATE KEY-----
 MC4CAQAwBQYDK2VwBCIEIMdPmgtf+UHuvnQECOh4HwmyE+sVSMqyLIwd6NPmuPHm

@@ -4,6 +4,7 @@
 use anyhow::Result;
 use bytes::{BufMut, BytesMut};
 
+
 fn main() -> Result<()> {
     let mut buf = BytesMut::with_capacity(1024);
     buf.extend_from_slice(b"hello world\n");
@@ -38,12 +39,4 @@ fn main() -> Result<()> {
     });
 
     Ok(())
-}
-
-#[cfg(test)]
-pub mod tests {
-    #[test]
-    pub fn entry() {
-        super::main().expect("TODO: panic message");
-    }
 }

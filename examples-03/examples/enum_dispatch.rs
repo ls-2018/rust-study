@@ -53,12 +53,3 @@ fn main() {
     let a: MyBehaviorEnum = MyImplementorA::new().into();
     a.my_trait_method(); //no dynamic dispatch
 }
-
-#[cfg(test)]
-pub mod tests {
-
-    #[test]
-    pub fn entry() {
-        super::main();
-    }
-}

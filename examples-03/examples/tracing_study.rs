@@ -22,15 +22,6 @@ async fn instrument_test() -> User {
     };
     user
 }
-
-async fn instrument_test2() -> User {
-    let user = User {
-        name: "Alice".to_string(),
-        age: 30,
-        skills: vec!["Rust".to_string(), "Python".to_string()],
-    };
-    user
-}
 #[tokio::main]
 async fn main() -> Result<()> {
     let console = fmt::Layer::new()
@@ -40,8 +31,6 @@ async fn main() -> Result<()> {
     tracing_subscriber::registry().with(console).init();
 
     let res = instrument_test().await;
-    info!("{:?}", res);
-    let res = instrument_test2().await;
     info!("{:?}", res);
     Ok(())
 }

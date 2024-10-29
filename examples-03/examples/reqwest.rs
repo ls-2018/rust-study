@@ -24,3 +24,6 @@ async fn post() -> anyhow::Result<()> {
     println!("{:?}", ret);
     Ok(())
 }
+fn main() {
+
+}

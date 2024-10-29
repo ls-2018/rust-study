@@ -1,5 +1,6 @@
 use std::{thread, time::Duration};
 
+use tokio::time::Instant;
 use tokio::{
     fs,
     runtime::{Builder, Runtime},
@@ -26,12 +27,15 @@ async fn run(rt: &Runtime) {
 }
 
 fn main() {
+    let start = Instant::now();
+
     let handle = thread::spawn(|| {
         let rt = Builder::new_current_thread().enable_all().build().unwrap();
         rt.block_on(run(&rt));
     });
 
     handle.join().unwrap();
+    println!("cost {:?}", start.elapsed());
 }
 
 #[cfg(test)]

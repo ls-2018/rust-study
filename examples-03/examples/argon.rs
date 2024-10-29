@@ -31,7 +31,15 @@ mod tests {
     use super::*;
 
     #[test]
-    fn cp() {
-        println!("{:?}", hash_password("asd"))
+    fn cp() -> anyhow::Result<(), password_hash::Error> {
+        let p = "asd";
+        let h = hash_password(p)?;
+        println!("{}", h);
+        println!("{:?}", verify_password(p, h.as_str()));
+        Ok(())
     }
+}
+
+fn main() {
+
 }

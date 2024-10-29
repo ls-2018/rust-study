@@ -5,7 +5,7 @@ mod layer;
 mod middwares;
 mod opentelemetry_otlp;
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Default)]
 pub struct User {
     pub id: i64,
     pub ws_id: i64,
@@ -13,10 +13,4 @@ pub struct User {
     pub fullname: String,
     pub email: String,
     pub password_hash: Option<String>,
-}
-
-impl User {
-    pub(crate) fn new(p0: i32, p1: &str, p2: &str) -> Self {
-        todo!()
-    }
 }

@@ -70,11 +70,3 @@ fn main() -> Result<()> {
 
     Ok(())
 }
-#[cfg(test)]
-pub mod tests {
-
-    #[test]
-    pub fn entry() {
-        super::main().expect("xx");
-    }
-}

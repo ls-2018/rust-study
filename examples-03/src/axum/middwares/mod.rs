@@ -23,6 +23,7 @@ pub trait TokenVerify {
 const REQUEST_ID_HEADER: &str = "x-request-id";
 const SERVER_TIME_HEADER: &str = "x-server-time";
 
+#[allow(unused)]
 pub fn set_layer(app: Router) -> Router {
     app.layer(
         ServiceBuilder::new()

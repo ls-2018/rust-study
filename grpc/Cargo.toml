@@ -1,0 +1,33 @@
+[package]
+name = "grpc"
+version = "0.1.0"
+edition = "2021"
+description = "A demo to learn grpc with tonic."
+
+[dependencies]
+prost = { workspace = true }
+prost-types = { workspace = true }
+prost-build =  { workspace = true }
+proto-builder-trait =  { workspace = true }
+tokio =  { workspace = true }
+tonic =  { workspace = true }
+anyhow =  { workspace = true }
+derive_builder = { workspace = true }
+tonic-build = { workspace = true }
+serde =  { workspace = true }
+sqlx = { workspace = true }
+futures = { workspace = true }
+futures-util =  { workspace = true }
+
+[[bin]]
+name="grpc_server"
+path="src/bin/server.rs"
+
+[[bin]]
+name="grpc_client"
+path="src/bin/client.rs"
+
+[[bin]]
+name="gen"
+path= "src/bin/gen.rs"
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
