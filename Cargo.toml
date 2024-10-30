@@ -1,14 +1,13 @@
 [workspace]
-members = ["base", "rcli", "macros-01", "error-code-02", "examples-03","bundler"]
+members = ["base", "rcli", "macros", "examples","grpc","error-code-02"]
 resolver = "2"
 
 [workspace.dependencies]
-macros = { path = "macros-01" }
-error-code = { path = "error-code-02" }
-examples = { path = "examples-03" }
-bundler = { path = "bundler" }
+macros = { path = "macros" }
+examples = { path = "examples" }
 rcli = { path = "rcli" }
 base = { path = "base" }
+
 anyhow = "1.0.91"
 enum_dispatch = "0.3.13"
 http = "1"
@@ -20,15 +19,13 @@ bytes = "1.8.0"
 # cmd
 clap = { version = "4.5.20", features = ["derive"] }
 # cmd
-dialoguer = { version = "0.11.0",features = ["history" , "completion",    "fuzzy-matcher",    "fuzzy-select", ] }
-
+dialoguer = { version = "0.11.0", features = ["history", "completion", "fuzzy-matcher", "fuzzy-select", ] }
 csv = "1.3.0"
 ed25519-dalek = "2.1.1"
 time = { version = "0.3.36", features = ["formatting", "parsing", "macros", "std", "local-offset"] }
 
-tokio = { version = "1.40.0", features = ["rt", "rt-multi-thread", "macros", "net", "fs"] }
-tokio-util = { version = "0.7.10", features = ["codec"] }
-tokio-stream = { version = "0.1.16", features = ["sync"] }
+
+
 tower = "0.4.13"
 tower-http = { version = "0.5.2", features = ["compression-full", "cors", "trace", "fs"] }
 
@@ -40,7 +37,7 @@ reqwest-eventsource = "0.6.0"
 actix-web = "4.9.0"
 # 随机密码
 zxcvbn = "3.1.0"
-sqlx = { version = "0.8.1", features = ["postgres", "mysql", "runtime-tokio", "tls-rustls", "chrono", ] }
+sqlx = { version = "0.8.2", features = ["postgres", "mysql", "runtime-tokio", "tls-rustls", "chrono", ] }
 chacha20poly1305 = "0.10.1"
 # 时间
 chrono = { version = "0.4.37", features = ["serde"] }
@@ -56,33 +53,17 @@ surf = "2.3.2"
 crates-io = "0.40.4"
 rand = "0.8.5"
 num = "0.4.3"
-regex = "1.10.6"
 lazy_static = "1.5.0"
 unicode-normalization = "0.1.24"
 thiserror = "1.0.64"
 num-complex = "0.4.6"
-features = "0.10.0"
 uuid = { version = "1.8.0", features = ["v7", "serde"] }
 utoipa = { version = "4.2.0", features = ["axum_extras", "chrono"] }
 jwt-simple = "0.12.10"
 argon2 = "0.5.3"
-fake = { version = "2.9.2", features = ["derive", "chrono","always-true-rng"] }
-notify = "6.1.1"
-notify-debouncer-mini = "0.4.1"
-futures = "0.3.30"
-derive_builder = "0.20.0"
-# 派生大量常用特性，极大地减少了相应的样板代码。From、Into、Add、Subtract、Mul、Div、BitAnd、BitOr、BitXor、Not、PartialEq、PartialOrd、Debug、Display、Clone、Copy、Hash、Serialize、Deserialize等
-derive_more = { version = "1.0.0", features = ["full"] }
-#提供了一系列宏和特性，使得枚举与字符串的交互变得更加简单和高效。
-strum = { version = "0.26.2", features = ["derive"] }
+fake = { version = "2.9.2", features = ["derive", "chrono", "always-true-rng"] }
 sha1 = "0.10.6"
 hex = "0.4.3"
-prost = "0.12.4"
-prost-build = "0.12.4"
-prost-types = "0.12.4"
-proto-builder-trait = "0.6.1"
-tonic = { version = "0.11.0", features = ["zstd", "tls"] }
-tonic-build = "0.12.3"
 # bench 性能测试
 criterion = "0.5.1"
 # 优化 读多写少
@@ -95,6 +76,10 @@ once_cell = "1.20.2"
 indexmap = "1.9.3"
 # 高性能url router
 matchit = "0.8.4"
+regex = "1.10.4"
+futures = "0.3.30"
+notify = "6.1.1"
+notify-debouncer-mini = "0.4.1"
 
 
 # 🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽宏相关的🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽
@@ -128,8 +113,46 @@ serde = { version = "1.0.210", features = ["derive"] }
 serde_with = "3.7.0"
 serde_json = "1.0.128"
 serde_yaml = "0.9.34"
+# 动态类型
+rhai = { version = "1.19.0", features = ["serde"] }
+# 动态解析字符串
+winnow = { version = "0.6.8", features = ["simd"] }
 # 🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼
 
 # 🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽 lang 🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽
 rquickjs = "0.6.2"
+#napi
+#napi-build
+#napi-derive
+#pyo3
+# 🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼
+
+
+# 🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽 macos 🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽
+features = "0.10.0"
+futures-util = "0.3.31"
+derive_builder = "0.20.0"
+# 派生大量常用特性，极大地减少了相应的样板代码。From、Into、Add、Subtract、Mul、Div、BitAnd、BitOr、BitXor、Not、PartialEq、PartialOrd、Debug、Display、Clone、Copy、Hash、Serialize、Deserialize等
+derive_more = { version = "1.0.0", features = ["full"] }
+#提供了一系列宏和特性，使得枚举与字符串的交互变得更加简单和高效。
+strum = { version = "0.26.2", features = ["derive"] }
+# 🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼
+
+
+
+# 🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽 proto 🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽
+prost = "0.13.3"
+prost-build = "0.13.3"
+prost-types = "0.13.3"
+proto-builder-trait = "0.6.2"
+tonic = { version = "0.12.3", features = ["zstd", "tls"] }
+tonic-build = "0.12.3"
+
+# 🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼
+
+
+# 🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽 async 🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽🔽
+tokio = { version = "1.41.0", features = ["rt", "rt-multi-thread", "macros", "net", "fs"] }
+tokio-util = { version = "0.7.10", features = ["codec"] }
+tokio-stream = { version = "0.1.16", features = ["sync"] }
 # 🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼🔼

@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package query;
+
+import "basic/basic.proto";
+
+service UserStats {
+  rpc QueryOnce(basic.QueryRequest) returns (basic.User);
+  rpc Query(basic.QueryRequest) returns (stream basic.User) {};
+  rpc QueryStream(stream basic.QueryRequest) returns (stream basic.User) {};
+}

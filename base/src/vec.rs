@@ -1,5 +1,5 @@
 #![allow(unused)]
-#![allow(unused_variables)]
+#![allow(clippy::useless_vec)]
 
 #[test]
 fn vec_test() {

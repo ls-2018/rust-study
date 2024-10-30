@@ -1,3 +1,8 @@
+#![allow(unused)]
+#![allow(clippy::unnecessary_operation)]
+#![allow(clippy::partialeq_to_none)]
+#![allow(clippy::explicit_auto_deref)]
+
 #[test]
 fn type__() {
     // 前缀 checked_、wrapping_、saturating_ 或 overflowing_
