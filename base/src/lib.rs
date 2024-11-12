@@ -39,6 +39,8 @@ mod vec;
 mod vegetables;
 mod web;
 mod width_ref;
+mod mutex;
+mod barrier;
 
 #[allow(unused_imports)]
 #[allow(unused_variables)]
