@@ -12,7 +12,7 @@ fn main_fn_once() {
     let get_range_count = || range.count();
 
     assert_eq!(get_range_count(), 10); // ✅
-                                       // get_range_count(); // ❌
+    // get_range_count(); // ❌
 }
 
 #[test]

@@ -1,7 +1,7 @@
 use axum::{
+    Router,
     response::{IntoResponse, Response},
     routing::get,
-    Router,
 };
 use backtrace::Backtrace;
 use error_code::ToErrorInfo;
@@ -23,11 +23,7 @@ enum AppError {
     NotFound(String),
 
     #[error("Internal server error: {0}")]
-    #[error_info(
-        code = "ISE",
-        app_code = "500",
-        client_msg = "we had a server problem, please try again later"
-    )]
+    #[error_info(code = "ISE", app_code = "500", client_msg = "we had a server problem, please try again later")]
     ServerError(String),
 
     #[error("Unknown error")]
@@ -66,9 +62,6 @@ impl IntoResponse for AppError {
         }
 
         // use client-facing message
-        Response::builder()
-            .status(status)
-            .body(info.to_string().into())
-            .unwrap()
+        Response::builder().status(status).body(info.to_string().into()).unwrap()
     }
 }

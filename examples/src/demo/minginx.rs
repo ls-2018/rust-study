@@ -40,10 +40,7 @@ async fn proxy(mut client: TcpStream, mut upstream: TcpStream) -> Result<()> {
     let client_to_upstream = io::copy(&mut client_read, &mut upstream_write);
     let upstream_to_client = io::copy(&mut upstream_read, &mut client_write);
     match tokio::try_join!(client_to_upstream, upstream_to_client) {
-        Ok((n, m)) => info!(
-            "proxied {} bytes from client to upstream, {} bytes from upstream to client",
-            n, m
-        ),
+        Ok((n, m)) => info!("proxied {} bytes from client to upstream, {} bytes from upstream to client", n, m),
         Err(e) => warn!("error proxying: {:?}", e),
     }
     Ok(())

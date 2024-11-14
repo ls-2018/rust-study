@@ -28,23 +28,22 @@ impl ThreadPool {
             // spawn with name
             let handle = thread::Builder::new()
                 .name(name)
-                .spawn(move || loop {
-                    let Ok(guard) = receiver.lock() else {
-                        break;
-                    };
-                    let Ok(job) = guard.recv() else {
-                        break;
-                    };
-                    job();
+                .spawn(move || {
+                    loop {
+                        let Ok(guard) = receiver.lock() else {
+                            break;
+                        };
+                        let Ok(job) = guard.recv() else {
+                            break;
+                        };
+                        job();
+                    }
                 })
                 .unwrap();
             workers.push(handle);
         }
 
-        ThreadPool {
-            workers,
-            sender: Some(sender),
-        }
+        ThreadPool { workers, sender: Some(sender) }
     }
 
     fn execute<F>(&self, f: F) -> Result<()>

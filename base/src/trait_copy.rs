@@ -41,7 +41,7 @@ fn main() {
     let a = Point { x: 10, y: 10 };
 
     let b = a; // 这里发生了所有权move，a在后续不能使用了
-               // let c = a; // 这里发生了所有权move，a在后续不能使用了
+    // let c = a; // 这里发生了所有权move，a在后续不能使用了
     let a = Point2 { x: 10, y: 10 };
 
     let b = a; // 这里发生了所有权move，a在后续不能使用了

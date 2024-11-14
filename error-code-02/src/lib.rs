@@ -1,5 +1,5 @@
-use base64::engine::general_purpose::URL_SAFE_NO_PAD;
 use base64::Engine;
+use base64::engine::general_purpose::URL_SAFE_NO_PAD;
 pub use macros::ToErrorInfo;
 use std::{
     fmt,
@@ -25,12 +25,7 @@ where
     T: FromStr,
     <T as FromStr>::Err: fmt::Debug,
 {
-    pub fn new(
-        app_code: &str,
-        code: &'static str,
-        client_msg: &'static str,
-        server_msg: impl fmt::Display,
-    ) -> Self {
+    pub fn new(app_code: &str, code: &'static str, client_msg: &'static str, server_msg: impl fmt::Display) -> Self {
         let server_msg = server_msg.to_string();
         let mut hasher = DefaultHasher::new();
         server_msg.hash(&mut hasher);
@@ -49,11 +44,7 @@ where
 
 impl<T> ErrorInfo<T> {
     pub fn client_msg(&self) -> &str {
-        if self.client_msg.is_empty() {
-            &self.server_msg
-        } else {
-            self.client_msg
-        }
+        if self.client_msg.is_empty() { &self.server_msg } else { self.client_msg }
     }
 }
 

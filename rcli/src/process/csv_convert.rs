@@ -9,10 +9,7 @@ pub fn process_csv(input: String, output: String, format: OutputFormat) -> anyho
     let headers = reader.headers()?.clone();
     for result in reader.records() {
         let record = result?;
-        let json_value = headers
-            .iter()
-            .zip(record.iter())
-            .collect::<serde_json::Value>();
+        let json_value = headers.iter().zip(record.iter()).collect::<serde_json::Value>();
         ret.push(json_value);
     }
 

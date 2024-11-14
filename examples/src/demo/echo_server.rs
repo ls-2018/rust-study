@@ -51,17 +51,8 @@ fn main() {
 
     // 创建一个简单映射表
     let mut map = RoomMap::new();
-    map.insert(
-        "Cobble Crawl".to_string(),
-        vec![('W', "Debris Room".to_string())],
-    );
-    map.insert(
-        "Debris Room".to_string(),
-        vec![
-            ('E', "Cobble Crawl".to_string()),
-            ('W', "Sloping Canyon".to_string()),
-        ],
-    );
+    map.insert("Cobble Crawl".to_string(), vec![('W', "Debris Room".to_string())]);
+    map.insert("Debris Room".to_string(), vec![('E', "Cobble Crawl".to_string()), ('W', "Sloping Canyon".to_string())]);
 
     serde_json::to_writer(&mut io::stdout(), &map).unwrap();
     println!("{:?}", "---");

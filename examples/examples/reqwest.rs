@@ -6,9 +6,7 @@ use reqwest::multipart::{Form, Part};
 async fn post() -> anyhow::Result<()> {
     let client = reqwest::Client::new();
 
-    let files = Part::bytes(b"data")
-        .file_name("Cargo.toml")
-        .mime_str("text/plain")?;
+    let files = Part::bytes(b"data").file_name("Cargo.toml").mime_str("text/plain")?;
     let form = Form::new().part("file", files);
 
     let res = client

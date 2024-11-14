@@ -17,10 +17,7 @@ impl Drop for Appellation {
 fn main() {
     let mut a = Appellation {
         name: "Zeus".to_string(),
-        nicknames: vec![
-            "cloud collector".to_string(),
-            "king of the gods".to_string(),
-        ],
+        nicknames: vec!["cloud collector".to_string(), "king of the gods".to_string()],
     };
 
     println!("before assignment");

@@ -11,9 +11,7 @@ pub struct MyImplementorA {
 
 impl MyImplementorA {
     fn new() -> Self {
-        MyImplementorA {
-            is_initialized: false,
-        }
+        MyImplementorA { is_initialized: false }
     }
 }
 
@@ -24,10 +22,7 @@ trait MyBehavior {
 
 impl MyBehavior for MyImplementorA {
     fn my_trait_method(&self) {
-        println!(
-            "MyImplementorA::my_trait_method::is_initialized:{}",
-            self.is_initialized
-        );
+        println!("MyImplementorA::my_trait_method::is_initialized:{}", self.is_initialized);
     }
 }
 

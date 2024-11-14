@@ -22,13 +22,7 @@ pub struct GenPassOpts {
 
 impl CmdExecutor for GenPassOpts {
     async fn execute(self) -> anyhow::Result<()> {
-        let ret = crate::process_genpass(
-            self.length,
-            self.uppercase,
-            self.lowercase,
-            self.number,
-            self.symbol,
-        )?;
+        let ret = crate::process_genpass(self.length, self.uppercase, self.lowercase, self.number, self.symbol)?;
         println!("{}", ret);
         // output password strength in stderr
         let estimate = zxcvbn(&ret, &[]);

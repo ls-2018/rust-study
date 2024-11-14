@@ -26,23 +26,16 @@ fn main() -> Result<()> {
 
     assert_eq!(format!("{}, wow", "doge"), "doge, wow");
     assert_eq!(format!("{}", true), "true");
-    assert_eq!(
-        format!("({:.3}, {:.3})", 0.5, f64::sqrt(3.0) / 2.0),
-        "(0.500, 0.866)"
-    );
+    assert_eq!(format!("({:.3}, {:.3})", 0.5, f64::sqrt(3.0) / 2.0), "(0.500, 0.866)");
 
     use std::borrow::Cow;
 
-    let x = std::env::var("USER")
-        .map(|v| Cow::Owned(v))
-        .unwrap_or(Cow::Borrowed("whoever you are"));
+    let x = std::env::var("USER").map(|v| Cow::Owned(v)).unwrap_or(Cow::Borrowed("whoever you are"));
 
     let x = "a".to_string();
     // .into(); // 对应类型 实现了 impl From<(i32, i32)> for Point
 
-    let x = std::env::var("USER")
-        .map(|v| v.into())
-        .unwrap_or(Cow::Borrowed("whoever you are"));
+    let x = std::env::var("USER").map(|v| v.into()).unwrap_or(Cow::Borrowed("whoever you are"));
 
     assert_eq!(format!("{}", "bookends"), "bookends");
     assert_eq!(format!("{:4}", "bookends"), "bookends");
@@ -72,10 +65,7 @@ fn main() -> Result<()> {
     assert_eq!(format!("{:>1$}", 1234, 10), "      1234"); // 在运行期选择字段宽度
 
     println!("{:?}", format!("{:>width$}", "content", width = 10));
-    println!(
-        "{:?}",
-        format!("{:>width$.limit$}", 10.12345, width = 5, limit = 3)
-    );
+    println!("{:?}", format!("{:>width$.limit$}", 10.12345, width = 5, limit = 3));
     println!("{:?}", format!("{:.*}", 3, 1.2345));
 
     assert_eq!(format!("{:<+12}", 1234), "+1234       ");

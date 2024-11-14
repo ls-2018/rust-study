@@ -2,28 +2,27 @@
 
 use axum::extract::{FromRequestParts, Path};
 use axum::response::IntoResponse;
-use axum::{extract::Request, routing::get, Router};
+use axum::{Router, extract::Request, routing::get};
 use http::header::LOCATION;
 use http::{HeaderMap, Method, StatusCode};
 use opentelemetry::KeyValue;
 use opentelemetry_otlp::WithExportConfig;
 use opentelemetry_sdk::{
-    runtime,
+    Resource, runtime,
     trace::{self, RandomIdGenerator, Tracer},
-    Resource,
 };
 use std::time::Duration;
 use tokio::{
     join,
     net::TcpListener,
-    time::{sleep, Instant},
+    time::{Instant, sleep},
 };
 use tracing::{debug, info, instrument, level_filters::LevelFilter, warn};
 use tracing_subscriber::{
+    Layer,
     fmt::{self, format::FmtSpan},
     layer::SubscriberExt,
     util::SubscriberInitExt,
-    Layer,
 };
 
 #[instrument(fields(http.uri = req.uri().path(), http.method = req.method().as_str()))]
@@ -78,20 +77,13 @@ async fn task3() {
 pub fn init_tracer() -> anyhow::Result<Tracer> {
     let tracer = opentelemetry_otlp::new_pipeline()
         .tracing()
-        .with_exporter(
-            opentelemetry_otlp::new_exporter()
-                .tonic()
-                .with_endpoint("http://localhost:4317"),
-        )
+        .with_exporter(opentelemetry_otlp::new_exporter().tonic().with_endpoint("http://localhost:4317"))
         .with_trace_config(
             trace::config()
                 .with_id_generator(RandomIdGenerator::default())
                 .with_max_events_per_span(32)
                 .with_max_attributes_per_span(64)
-                .with_resource(Resource::new(vec![KeyValue::new(
-                    "service.name",
-                    "axum-tracing",
-                )])),
+                .with_resource(Resource::new(vec![KeyValue::new("service.name", "axum-tracing")])),
         )
         .install_batch(runtime::Tokio)?;
     Ok(tracer)
@@ -100,10 +92,7 @@ pub fn init_tracer() -> anyhow::Result<Tracer> {
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
     // console layer for tracing-subscriber
-    let console = fmt::Layer::new()
-        .with_span_events(FmtSpan::CLOSE)
-        .pretty()
-        .with_filter(LevelFilter::DEBUG);
+    let console = fmt::Layer::new().with_span_events(FmtSpan::CLOSE).pretty().with_filter(LevelFilter::DEBUG);
 
     // file appender layer for tracing-subscriber
     let file_appender = tracing_appender::rolling::daily("/tmp/logs", "ecosystem.log");
@@ -117,16 +106,10 @@ async fn main() -> anyhow::Result<()> {
     let tracer = init_tracer()?;
     let opentelemetry = tracing_opentelemetry::layer().with_tracer(tracer);
 
-    tracing_subscriber::registry()
-        .with(console)
-        .with(file)
-        .with(opentelemetry)
-        .init();
+    tracing_subscriber::registry().with(console).with(file).with(opentelemetry).init();
 
     let addr = "0.0.0.0:8080";
-    let app = Router::new()
-        .route("/", get(index_handler))
-        .route("/:id", get(index_handler_id));
+    let app = Router::new().route("/", get(index_handler)).route("/:id", get(index_handler_id));
 
     let listener = TcpListener::bind(addr).await?;
     info!("Starting server on {}", addr);

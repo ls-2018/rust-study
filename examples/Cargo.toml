@@ -70,15 +70,18 @@ crossbeam-channel = { workspace = true }
 regex = { workspace = true }
 rhai = { workspace = true }
 winnow = { workspace = true }
-pest_derive = "2.7.10"
-pest = { version = "2.7.10", features = ["pretty-print"] }
+pest = { workspace = true }
+pest_derive = { workspace = true }
+
+dunce.workspace = true
+
 #pest =  { workspace = true }
 #pest_derive =  { workspace = true }
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
-
-
 [[bench]]
 name = "criterion"
 harness = false
+# 不使用 Rust 的默认测试框架（libtest）来运行这些基准测试。这意味着你需要在你的代码中提供一个自己的 main 函数来控制基准测试的执行
+# Rust 的基准测试是通过 libtest 运行的，它会自动执行所有用 #[bench] 属性标注的函数

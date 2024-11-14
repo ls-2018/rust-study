@@ -1,9 +1,9 @@
 use anyhow::Result;
 use axum::{
+    Router,
     extract::{Path, State},
     http::StatusCode,
     routing::get,
-    Router,
 };
 use std::{net::SocketAddr, path::PathBuf, sync::Arc};
 use tower_http::services::ServeDir;
@@ -31,17 +31,11 @@ pub async fn process_http_serve(path: PathBuf, port: u16) -> Result<()> {
     Ok(())
 }
 
-async fn file_handler(
-    State(state): State<Arc<HttpServeState>>,
-    Path(path): Path<String>,
-) -> (StatusCode, String) {
+async fn file_handler(State(state): State<Arc<HttpServeState>>, Path(path): Path<String>) -> (StatusCode, String) {
     let p = std::path::Path::new(&state.path).join(path);
     info!("Reading file {:?}", p);
     if !p.exists() {
-        (
-            StatusCode::NOT_FOUND,
-            format!("File {} note found", p.display()),
-        )
+        (StatusCode::NOT_FOUND, format!("File {} note found", p.display()))
     } else {
         // TODO: test p is a directory
         // if it is a directory, list all files/subdirectories
@@ -66,9 +60,7 @@ pub mod tests {
 
     #[tokio::test]
     async fn test_file_handler() {
-        let state = Arc::new(HttpServeState {
-            path: PathBuf::from("."),
-        });
+        let state = Arc::new(HttpServeState { path: PathBuf::from(".") });
         let (status, content) = file_handler(State(state), Path("Cargo.toml".to_string())).await;
         assert_eq!(status, StatusCode::OK);
         assert!(content.trim().starts_with("[package]"));

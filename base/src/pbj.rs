@@ -39,27 +39,18 @@ impl Rectangle {
 #[test]
 
 fn o() {
-    let rect1 = Rectangle {
-        width: 30,
-        height: 50,
-    };
+    let rect1 = Rectangle { width: 30, height: 50 };
 
     let x = &rect1;
 
     // println!("The area of the rectangle is {} square pixels.", rect1.area()); //
     // 传入rect
-    println!(
-        "The area of the rectangle is {} square pixels.",
-        rect1.area2()
-    ); // 传入&rect1
-    println!(
-        "The area of the rectangle is {} square pixels.",
-        rect1.area2()
-    ); // 传入&rect1
+    println!("The area of the rectangle is {} square pixels.", rect1.area2()); // 传入&rect1
+    println!("The area of the rectangle is {} square pixels.", rect1.area2()); // 传入&rect1
     println!("The area of the rectangle is {} square pixels.", x.area2()); // 传入&rect1
     println!("The area of the rectangle is {} square pixels.", x.area2()); // 传入&rect1
-                                                                           // println!("The area of the rectangle is {} square pixels.", rect1.area3()); //
-                                                                           // 传入&mut rect1
+    // println!("The area of the rectangle is {} square pixels.", rect1.area3()); //
+    // 传入&mut rect1
 
     println!("{}", Rectangle::numbers(1, 2));
 

@@ -68,7 +68,7 @@ fn main() {
     scores.insert(String::from("Yellow"), 50);
 
     let x: (i32, f64, u8) = (500, 6.4, 1); // 元组
-                                           // 元组使用.运算符访问其元素，下标从0开始，注意语法
+    // 元组使用.运算符访问其元素，下标从0开始，注意语法
     let _five_hundred = x.0;
 
     let _six_point_four = x.1;
@@ -105,11 +105,7 @@ fn main() {
 
     let email = String::from("someone@example.com");
 
-    let user1 = User {
-        active,
-        username,
-        age: 0,
-    };
+    let user1 = User { active, username, age: 0 };
 
     let user2 = User {
         username: String::from("another@example.com"),
@@ -142,8 +138,8 @@ fn main() {
     let s1: String = String::from(s); // 使用 String 的from构造器
     let s2: String = s.to_string(); // 使用 to_string() 方法;只是转成字符串而已，这两个用法重叠，但是不完全相同。
     let s3: String = s.to_owned(); // 使用 to_owned() 方法
-                                   // 是更通用的，目的就是在只能拿到引用的情况下获得所有权（通过克隆一份资源）。
-                                   //
+    // 是更通用的，目的就是在只能拿到引用的情况下获得所有权（通过克隆一份资源）。
+    //
 }
 
 fn foo(s: &mut String) {

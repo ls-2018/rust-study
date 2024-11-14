@@ -12,11 +12,7 @@ fn say_hello(out: &mut dyn Write) -> std::io::Result<()> {
 
 pub fn write_log_entry(entry: std::fmt::Arguments) {
     // 尽量保持简单，所以每次只是打开文件
-    let mut log_file = OpenOptions::new()
-        .append(true)
-        .create(true)
-        .open("/tmp/log-file-name")
-        .expect("failed to open log file");
+    let mut log_file = OpenOptions::new().append(true).create(true).open("/tmp/log-file-name").expect("failed to open log file");
 
     log_file.write_fmt(entry).expect("failed to write to log");
 }

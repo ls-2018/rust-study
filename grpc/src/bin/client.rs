@@ -1,7 +1,7 @@
 use grpc::basic::QueryRequest;
 use grpc::query::user_stats_client::UserStatsClient;
-use tonic::transport::Endpoint;
 use tonic::Request;
+use tonic::transport::Endpoint;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {

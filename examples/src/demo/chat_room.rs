@@ -2,7 +2,7 @@
 
 use anyhow::Result;
 use dashmap::DashMap;
-use futures::{stream::SplitStream, SinkExt, StreamExt};
+use futures::{SinkExt, StreamExt, stream::SplitStream};
 use std::{fmt, net::SocketAddr, sync::Arc};
 use tokio::{
     net::{TcpListener, TcpStream},
@@ -10,7 +10,7 @@ use tokio::{
 };
 use tokio_util::codec::{Framed, LinesCodec};
 use tracing::{info, level_filters::LevelFilter, warn};
-use tracing_subscriber::{fmt::Layer, layer::SubscriberExt, util::SubscriberInitExt, Layer as _};
+use tracing_subscriber::{Layer as _, fmt::Layer, layer::SubscriberExt, util::SubscriberInitExt};
 
 const MAX_MESSAGES: usize = 128;
 
@@ -112,12 +112,7 @@ impl State {
         }
     }
 
-    async fn add(
-        &self,
-        addr: SocketAddr,
-        username: String,
-        stream: Framed<TcpStream, LinesCodec>,
-    ) -> Peer {
+    async fn add(&self, addr: SocketAddr, username: String, stream: Framed<TcpStream, LinesCodec>) -> Peer {
         let (tx, mut rx) = mpsc::channel(MAX_MESSAGES);
         self.peers.insert(addr, tx);
 
@@ -167,7 +162,9 @@ impl fmt::Display for Message {
         match self {
             Self::UserJoined(content) => write!(f, "[{}]", content),
             Self::UserLeft(content) => write!(f, "[{} :(]", content),
-            Self::Chat { sender, content } => write!(f, "{}: {}", sender, content),
+            Self::Chat { sender, content } => {
+                write!(f, "{}: {}", sender, content)
+            }
         }
     }
 }

@@ -3,8 +3,7 @@ use regex::Regex;
 use std::io::BufRead;
 
 lazy_static! {
-    static ref SEMVER: Regex =
-        Regex::new(r"(\d+)\.(\d+)\.(\d+)(-[-.[:alnum:]]*)?").expect("error parsing regex");
+    static ref SEMVER: Regex = Regex::new(r"(\d+)\.(\d+)\.(\d+)(-[-.[:alnum:]]*)?").expect("error parsing regex");
 }
 
 #[test]
@@ -20,10 +19,7 @@ fn x() {
     let haystack = r#"regex = "0.2.5""#;
     assert!(semver.is_match(haystack));
     // 可以检索各个捕获组：
-    let captures = semver
-        .captures(haystack)
-        .ok_or("semver regex should have matched")
-        .expect("");
+    let captures = semver.captures(haystack).ok_or("semver regex should have matched").expect("");
     assert_eq!(&captures[0], "0.2.5");
     assert_eq!(&captures[1], "0");
     assert_eq!(&captures[2], "2");
@@ -37,10 +33,7 @@ fn x() {
                 For a while, we used 1.0.1-beta, \
                 but in the end, we settled on 1.2.4.";
 
-    let matches: Vec<&str> = semver
-        .find_iter(haystack)
-        .map(|match_| match_.as_str())
-        .collect();
+    let matches: Vec<&str> = semver.find_iter(haystack).map(|match_| match_.as_str()).collect();
     assert_eq!(matches, vec!["1.0.0", "1.0.1-beta", "1.2.4"]);
 
     // let stdin = std::io::stdin();

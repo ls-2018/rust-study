@@ -1,4 +1,4 @@
-use dialoguer::{theme::ColorfulTheme, BasicHistory, Input};
+use dialoguer::{BasicHistory, Input, theme::ColorfulTheme};
 use std::process;
 
 fn main() {

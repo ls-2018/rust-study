@@ -1,4 +1,4 @@
-use criterion::{black_box, criterion_group, criterion_main, Criterion};
+use criterion::{Criterion, black_box, criterion_group, criterion_main};
 use serde::{Deserialize, Serialize};
 use serde_json;
 
@@ -26,13 +26,9 @@ fn benchmark(c: &mut Criterion) {
 
     let json_str = serialize_example(&example);
 
-    c.bench_function("serialize", |b| {
-        b.iter(|| serialize_example(black_box(&example)))
-    });
+    c.bench_function("serialize", |b| b.iter(|| serialize_example(black_box(&example))));
 
-    c.bench_function("deserialize", |b| {
-        b.iter(|| deserialize_example(black_box(&json_str)))
-    });
+    c.bench_function("deserialize", |b| b.iter(|| deserialize_example(black_box(&json_str))));
 }
 
 criterion_group!(benches, benchmark);

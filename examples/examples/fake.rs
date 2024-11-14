@@ -1,8 +1,8 @@
 #![allow(unused)]
 use fake::utils::AlwaysTrueRng;
 use fake::{Dummy, Fake, Faker};
-use rand::rngs::StdRng;
 use rand::SeedableRng;
+use rand::rngs::StdRng;
 
 #[derive(Debug, Dummy)]
 pub struct Foo {
@@ -52,10 +52,7 @@ fn main() {
     println!("random nested vec {:?}", name_vec);
 
     // fixed seed rng
-    let seed = [
-        1, 0, 0, 0, 23, 0, 0, 0, 200, 1, 0, 0, 210, 30, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0,
-    ];
+    let seed = [1, 0, 0, 0, 23, 0, 0, 0, 200, 1, 0, 0, 210, 30, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     let ref mut r = StdRng::from_seed(seed);
     for _ in 0..5 {
         let v: usize = Faker.fake_with_rng(r);

@@ -2,33 +2,28 @@
 use anyhow::Result;
 use axum::response::sse::{Event, KeepAlive};
 use axum::response::{Html, Sse};
-use axum::{extract::State, routing::get, Router};
+use axum::{Router, extract::State, routing::get};
 use futures::StreamExt;
 use reqwest_eventsource::{Event as REvent, EventSource};
 use std::sync::Arc;
 use std::time::Duration;
 use tokio::net::TcpListener;
 use tokio::sync::broadcast;
-use tokio_stream::wrappers::errors::BroadcastStreamRecvError;
-use tokio_stream::wrappers::BroadcastStream;
 use tokio_stream::Stream;
+use tokio_stream::wrappers::BroadcastStream;
+use tokio_stream::wrappers::errors::BroadcastStreamRecvError;
 
 struct AppState {
     tx: broadcast::Sender<Event>,
 }
 
 async fn send_message(State(app_state): State<Arc<AppState>>) -> Html<&'static str> {
-    app_state
-        .tx
-        .send(Event::default().data("custom_data"))
-        .expect("send message");
+    app_state.tx.send(Event::default().data("custom_data")).expect("send message");
 
     Html("<h1>Hello, World!</h1>")
 }
 
-async fn sse_handler(
-    State(app_state): State<Arc<AppState>>,
-) -> Sse<impl Stream<Item = Result<Event, BroadcastStreamRecvError>>> {
+async fn sse_handler(State(app_state): State<Arc<AppState>>) -> Sse<impl Stream<Item = Result<Event, BroadcastStreamRecvError>>> {
     let rx = app_state.tx.subscribe();
 
     let mystream = BroadcastStream::new(rx).map(|x| {
@@ -38,11 +33,7 @@ async fn sse_handler(
         x
     });
 
-    Sse::new(mystream).keep_alive(
-        KeepAlive::new()
-            .interval(Duration::from_secs(1))
-            .text("keep-alive-text"),
-    )
+    Sse::new(mystream).keep_alive(KeepAlive::new().interval(Duration::from_secs(1)).text("keep-alive-text"))
 }
 
 async fn main() -> Result<()> {

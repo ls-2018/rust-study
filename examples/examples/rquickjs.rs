@@ -12,10 +12,7 @@ fn main() -> Result<()> {
 
     ctx.with(|ctx| -> Result<()> {
         let global = ctx.globals();
-        global.set(
-            "__print",
-            Function::new(ctx.clone(), print)?.with_name("__print")?,
-        )?;
+        global.set("__print", Function::new(ctx.clone(), print)?.with_name("__print")?)?;
         ctx.eval::<(), _>(
             r#"
 globalThis.console = {

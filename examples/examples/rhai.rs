@@ -21,10 +21,7 @@ pub fn ser() {
         a: 42,
         b: vec!["hello".into(), "world".into()],
         c: true,
-        d: Point {
-            x: 123.456,
-            y: 999.0,
-        },
+        d: Point { x: 123.456, y: 999.0 },
     };
 
     println!("Source struct: {x:#?}");
@@ -61,10 +58,7 @@ pub fn de() {
             a: 42,
             b: vec!["hello".into(), "world".into()],
             c: true,
-            d: Point {
-                x: 123.456,
-                y: 999.0,
-            },
+            d: Point { x: 123.456, y: 999.0 },
         }
     );
     println!("Deserialized to struct: {x:#?}");

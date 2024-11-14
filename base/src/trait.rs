@@ -85,8 +85,8 @@ struct Foo;
 fn main112() {
     let integer = Point::<u8> { x: 5, y: 10 }; // 一个整数point
     let float = Point { x: 1.0, y: 4.0 }; // 一个浮点数point
-                                          // let p = Point { x: Foo, y: Foo };  // 初始化一个Point<T> 实例
-                                          // print(p);
+    // let p = Point { x: Foo, y: Foo };  // 初始化一个Point<T> 实例
+    // print(p);
     println!("{:?}", integer);
 
     println!("{:?}", float);

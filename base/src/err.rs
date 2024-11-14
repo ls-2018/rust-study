@@ -27,11 +27,7 @@ fn xxx() -> Result<(), DataStoreError> {
     anyhow!("Missing attribute: {}", "missing");
     // x.into() // Error -> DataStoreError
     // 假设我们基于某些条件引发一个自定义错误
-    if contents.is_empty() {
-        Err(DataStoreError::Redaction("".to_string()))
-    } else {
-        Ok(())
-    }
+    if contents.is_empty() { Err(DataStoreError::Redaction("".to_string())) } else { Ok(()) }
 }
 
 struct MyError(String); // 用newtype方法定义了一个新的错误类型

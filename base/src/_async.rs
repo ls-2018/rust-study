@@ -6,7 +6,7 @@ use std::{io, net};
 use lazy_static::lazy_static;
 use std::sync::atomic::AtomicUsize;
 use std::sync::atomic::{AtomicBool, Ordering};
-use std::sync::{mpsc, Arc, Condvar, Mutex};
+use std::sync::{Arc, Condvar, Mutex, mpsc};
 use std::thread::spawn;
 // use crate::{fmt, std::io::ErrorKind::NotFound};
 use std::io::{Error, Read};
@@ -74,10 +74,7 @@ fn main() -> std::io::Result<()> {
     let response = task::block_on(cheapo_request2("baidu.com", 80, "/"))?;
     println!("{:#?}", response);
 
-    let requests = vec![
-        ("baidu.com".to_string(), 80, "/".to_string()),
-        ("zhihu.com".to_string(), 80, "/".to_string()),
-    ];
+    let requests = vec![("baidu.com".to_string(), 80, "/".to_string()), ("zhihu.com".to_string(), 80, "/".to_string())];
 
     let results = async_std::task::block_on(many_requests(requests));
     for result in results {
@@ -103,18 +100,15 @@ fn main() -> std::io::Result<()> {
 }
 
 pub async fn many_requests(requests: Vec<(String, u16, String)>) -> Vec<std::io::Result<String>> {
-    async fn cheapo_owning_request(
-        host: String,
-        port: u16,
-        path: String,
-    ) -> std::io::Result<String> {
+    async fn cheapo_owning_request(host: String, port: u16, path: String) -> std::io::Result<String> {
         cheapo_request2(&host, port, &path).await
     }
 
     let mut handles = vec![];
     for (host, port, path) in requests {
         handles.push(
-            task::spawn(async move { cheapo_request2(&host, port, &path).await }), // task::spawn_local(cheapo_owning_request(host, port, path)) // spawn_local 只会接受生命周期为 'static 的 Future
+            task::spawn(async move { cheapo_request2(&host, port, &path).await }),
+            // task::spawn_local(cheapo_owning_request(host, port, path)) // spawn_local 只会接受生命周期为 'static 的 Future
         ); // unstable
     }
     let mut results = vec![];
@@ -177,14 +171,10 @@ async fn main6() {
 
 fn main23() {
     // tokio::runtime::Builder::new_multi_thread()
-    tokio::runtime::Builder::new_current_thread()
-        .enable_all()
-        .build()
-        .unwrap()
-        .block_on(async {
-            // 注意这里block_on，里面是异步代码
-            println!("Hello world");
-        })
+    tokio::runtime::Builder::new_current_thread().enable_all().build().unwrap().block_on(async {
+        // 注意这里block_on，里面是异步代码
+        println!("Hello world");
+    })
 }
 
 struct GigabyteMap {}

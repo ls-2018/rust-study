@@ -1,5 +1,5 @@
-use loom::sync::atomic::AtomicUsize;
 use loom::sync::Mutex;
+use loom::sync::atomic::AtomicUsize;
 use loom::thread;
 
 use std::rc::Rc;

@@ -1,7 +1,7 @@
 #![allow(unused)]
 use futures::StreamExt;
-use sqlx::postgres::PgListener;
 use sqlx::Error;
+use sqlx::postgres::PgListener;
 use tracing::{info, warn};
 
 #[tokio::main]

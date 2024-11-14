@@ -1,14 +1,14 @@
 #![allow(unused)]
 use anyhow::Result;
-use base64::{engine::general_purpose::URL_SAFE_NO_PAD, Engine};
+use base64::{Engine, engine::general_purpose::URL_SAFE_NO_PAD};
 use chacha20poly1305::{
-    aead::{Aead, OsRng},
     AeadCore, ChaCha20Poly1305, KeyInit,
+    aead::{Aead, OsRng},
 };
 use chrono::{DateTime, Utc};
 use core::fmt;
 use serde::{Deserialize, Serialize};
-use serde_with::{serde_as, DisplayFromStr};
+use serde_with::{DisplayFromStr, serde_as};
 use std::str::FromStr;
 
 const KEY: &[u8] = b"01234567890123456789012345678901";
@@ -87,9 +87,7 @@ where
     D: serde::Deserializer<'de>,
 {
     let encoded = String::deserialize(deserializer)?;
-    let decoded = URL_SAFE_NO_PAD
-        .decode(encoded.as_bytes())
-        .map_err(serde::de::Error::custom)?;
+    let decoded = URL_SAFE_NO_PAD.decode(encoded.as_bytes()).map_err(serde::de::Error::custom)?;
     Ok(decoded)
 }
 

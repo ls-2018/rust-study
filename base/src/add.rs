@@ -49,7 +49,7 @@ fn main() {
     let p2 = Point { x: 3, y: 4 };
 
     let p3 = p1.clone() + p2.clone(); // 这里直接用+号作用在两个Point实例上
-                                      // let p3 = p1 + p2; // 这里直接用+号作用在两个Point实例上,会导致所有权转移
+    // let p3 = p1 + p2; // 这里直接用+号作用在两个Point实例上,会导致所有权转移
     assert_eq!(p3.x, p1.x + p2.x); // ✅
     assert_eq!(p3.y, p1.y + p2.y); // ✅
 
@@ -57,7 +57,7 @@ fn main() {
     let a = San { x: 10, y: 10 };
 
     let b = a; // 这里发生了复制，a在后续可以继续使用
-               // let c = a; // 这里又复制了一份，这下有3份了
+    // let c = a; // 这里又复制了一份，这下有3份了
     println!("{}", a.y);
 
     println!("{}", b.y);

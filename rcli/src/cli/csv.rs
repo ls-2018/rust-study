@@ -1,6 +1,6 @@
 use super::verify_file;
 use crate::r#struct::OutputFormat;
-use crate::{process, CmdExecutor};
+use crate::{CmdExecutor, process};
 use clap::Parser;
 
 #[derive(Debug, Parser)]

@@ -5,8 +5,8 @@ use grpc::query::user_stats_server::{UserStats, UserStatsServer};
 use std::pin::Pin;
 use tokio::sync::mpsc;
 use tonic::codegen::tokio_stream;
-use tonic::codegen::tokio_stream::wrappers::ReceiverStream;
 use tonic::codegen::tokio_stream::Stream;
+use tonic::codegen::tokio_stream::wrappers::ReceiverStream;
 use tonic::transport::Server;
 use tonic::{Request, Response, Status, Streaming};
 
@@ -30,10 +30,7 @@ impl UserStats for crate::UserService {
 
     type QueryStream = ResponseStream;
 
-    async fn query(
-        &self,
-        request: Request<QueryRequest>,
-    ) -> Result<Response<Self::QueryStream>, Status> {
+    async fn query(&self, request: Request<QueryRequest>) -> Result<Response<Self::QueryStream>, Status> {
         let stream = tokio_stream::iter(vec![Ok(User {
             email: "".to_string(),
             name: format!("{:?}", request.into_inner().timestamps),
@@ -43,10 +40,7 @@ impl UserStats for crate::UserService {
 
     type QueryStreamStream = ResponseStream;
 
-    async fn query_stream(
-        &self,
-        request: Request<Streaming<QueryRequest>>,
-    ) -> Result<Response<Self::QueryStreamStream>, Status> {
+    async fn query_stream(&self, request: Request<Streaming<QueryRequest>>) -> Result<Response<Self::QueryStreamStream>, Status> {
         let (tx, rx) = mpsc::channel(CHANNEL_SIZE);
         let mut req = request.into_inner();
         tokio::spawn(async move {

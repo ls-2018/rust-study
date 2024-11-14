@@ -16,10 +16,7 @@ pub async fn many_requests(urls: &[String]) -> Vec<surf::Result<String>> {
 }
 
 fn main() {
-    let requests = &[
-        "http://www.baidu.com".to_string(),
-        "https://www.zhihu.com".to_string(),
-    ];
+    let requests = &["http://www.baidu.com".to_string(), "https://www.zhihu.com".to_string()];
 
     let results = async_std::task::block_on(many_requests(requests));
     for result in results {

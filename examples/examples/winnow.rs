@@ -1,15 +1,15 @@
 #![allow(unused)]
-use anyhow::{anyhow, Result};
+use anyhow::{Result, anyhow};
 use chrono::{DateTime, Utc};
 use std::{
     net::{IpAddr, Ipv4Addr},
     str::FromStr,
 };
 use winnow::{
+    PResult, Parser,
     ascii::{digit1, space0},
     combinator::{alt, delimited, separated},
     token::take_until,
-    PResult, Parser,
 };
 
 #[derive(Debug, PartialEq, Eq)]
@@ -97,9 +97,7 @@ fn parse_ignored(s: &mut &str) -> PResult<()> {
 fn parse_datetime(s: &mut &str) -> PResult<DateTime<Utc>> {
     let ret = delimited('[', take_until(1.., ']'), ']').parse_next(s)?;
     space0(s)?;
-    Ok(DateTime::parse_from_str(ret, "%d/%b/%Y:%H:%M:%S %z")
-        .map(|dt| dt.with_timezone(&Utc))
-        .unwrap())
+    Ok(DateTime::parse_from_str(ret, "%d/%b/%Y:%H:%M:%S %z").map(|dt| dt.with_timezone(&Utc)).unwrap())
 }
 
 fn parse_http(s: &mut &str) -> PResult<(HttpMethod, String, HttpProto)> {
@@ -110,11 +108,9 @@ fn parse_http(s: &mut &str) -> PResult<(HttpMethod, String, HttpProto)> {
 }
 
 fn parse_method(s: &mut &str) -> PResult<HttpMethod> {
-    let ret = alt((
-        "GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS", "CONNECT", "TRACE", "PATCH",
-    ))
-    .parse_to()
-    .parse_next(s)?;
+    let ret = alt(("GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS", "CONNECT", "TRACE", "PATCH"))
+        .parse_to()
+        .parse_next(s)?;
     space0(s)?;
 
     Ok(ret)
@@ -127,9 +123,7 @@ fn parse_url(s: &mut &str) -> PResult<String> {
 }
 
 fn parse_protocol(s: &mut &str) -> PResult<HttpProto> {
-    let ret = alt(("HTTP/1.0", "HTTP/1.1", "HTTP/2.0", "HTTP/3.0"))
-        .parse_to()
-        .parse_next(s)?;
+    let ret = alt(("HTTP/1.0", "HTTP/1.1", "HTTP/2.0", "HTTP/3.0")).parse_to().parse_next(s)?;
     space0(s)?;
     Ok(ret)
 }

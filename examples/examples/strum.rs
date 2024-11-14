@@ -2,10 +2,7 @@
 
 use anyhow::Result;
 use serde::Serialize;
-use strum::{
-    Display, EnumCount, EnumDiscriminants, EnumIs, EnumIter, EnumString, IntoEnumIterator,
-    IntoStaticStr, VariantNames,
-};
+use strum::{Display, EnumCount, EnumDiscriminants, EnumIs, EnumIter, EnumString, IntoEnumIterator, IntoStaticStr, VariantNames};
 #[derive(Display, Debug, Serialize)]
 enum Color {
     #[strum(serialize = "redred", to_string = "red")] // to_string 优先级更高
@@ -34,9 +31,7 @@ enum Color {
 // VariantArray         Adds an associated VARIANTS constant which is an array of all enum discriminants
 // VariantNames         Adds an associated VARIANTS constant which is an array of discriminant names
 // EnumTable            Experimental, creates a new type that stores an item of a specified type for each variant of the enum.
-#[derive(
-    Debug, EnumString, EnumCount, EnumDiscriminants, EnumIter, EnumIs, IntoStaticStr, VariantNames,
-)]
+#[derive(Debug, EnumString, EnumCount, EnumDiscriminants, EnumIter, EnumIs, IntoStaticStr, VariantNames)]
 pub enum MyEnum {
     A,
     B(String),
@@ -60,10 +55,7 @@ fn main() -> Result<()> {
     let yellow = Color::Yellow;
     let purple = Color::Purple { sat: 30 };
 
-    println!(
-        "red: {}, green: {}, blue: {}, yellow: {}, purple: {}",
-        red, green, blue, yellow, purple
-    );
+    println!("red: {}, green: {}, blue: {}, yellow: {}, purple: {}", red, green, blue, yellow, purple);
 
     let red_str = serde_json::to_string(&red)?;
     println!("{}", red_str);

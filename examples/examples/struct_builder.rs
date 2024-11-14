@@ -32,9 +32,7 @@ impl UserBuilder {
         Ok(user)
     }
     pub fn dob(&mut self, value: &str) -> &mut Self {
-        self.dob = DateTime::parse_from_rfc3339(value)
-            .map(|dt| dt.with_timezone(&Utc))
-            .ok();
+        self.dob = DateTime::parse_from_rfc3339(value).map(|dt| dt.with_timezone(&Utc)).ok();
         self
     }
 }

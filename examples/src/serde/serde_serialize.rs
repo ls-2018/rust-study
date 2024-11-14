@@ -67,25 +67,12 @@ impl<'de> Visitor<'de> for UserVisitor {
     where
         A: serde::de::SeqAccess<'de>,
     {
-        let name = seq
-            .next_element()?
-            .ok_or_else(|| serde::de::Error::invalid_length(0, &self))?;
-        let age = seq
-            .next_element()?
-            .ok_or_else(|| serde::de::Error::invalid_length(1, &self))?;
-        let dob = seq
-            .next_element()?
-            .ok_or_else(|| serde::de::Error::invalid_length(2, &self))?;
-        let skills = seq
-            .next_element()?
-            .ok_or_else(|| serde::de::Error::invalid_length(3, &self))?;
+        let name = seq.next_element()?.ok_or_else(|| serde::de::Error::invalid_length(0, &self))?;
+        let age = seq.next_element()?.ok_or_else(|| serde::de::Error::invalid_length(1, &self))?;
+        let dob = seq.next_element()?.ok_or_else(|| serde::de::Error::invalid_length(2, &self))?;
+        let skills = seq.next_element()?.ok_or_else(|| serde::de::Error::invalid_length(3, &self))?;
 
-        Ok(User {
-            name,
-            age,
-            dob,
-            skills,
-        })
+        Ok(User { name, age, dob, skills })
     }
 
     fn visit_map<A>(self, map: A) -> Result<User, A::Error>
@@ -135,11 +122,6 @@ impl<'de> Visitor<'de> for UserVisitor {
         let dob = dob.ok_or_else(|| serde::de::Error::missing_field("dob"))?;
         let skills = skills.ok_or_else(|| serde::de::Error::missing_field("skills"))?;
 
-        Ok(User {
-            name,
-            age,
-            dob,
-            skills,
-        })
+        Ok(User { name, age, dob, skills })
     }
 }

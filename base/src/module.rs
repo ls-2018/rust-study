@@ -13,8 +13,8 @@ mod module_a {
 
 mod module_b {
 
-    use super::module_a::Shape; // 引入这个trait use super::module_a::A;
-    use super::module_a::A; // 这里只引入了另一个模块中的类型
+    use super::module_a::A;
+    use super::module_a::Shape; // 引入这个trait use super::module_a::A; // 这里只引入了另一个模块中的类型
 
     fn doit() {
         let a = A;

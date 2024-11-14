@@ -2,7 +2,7 @@ use anyhow::Result;
 use serde::{Deserialize, Serialize};
 use tracing::{info, instrument, level_filters::LevelFilter};
 use tracing_subscriber::fmt::format::FmtSpan;
-use tracing_subscriber::{fmt, layer::SubscriberExt, util::SubscriberInitExt, Layer as _};
+use tracing_subscriber::{Layer as _, fmt, layer::SubscriberExt, util::SubscriberInitExt};
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 struct User {
@@ -24,10 +24,7 @@ async fn instrument_test() -> User {
 }
 #[tokio::main]
 async fn main() -> Result<()> {
-    let console = fmt::Layer::new()
-        .with_span_events(FmtSpan::CLOSE)
-        .pretty()
-        .with_filter(LevelFilter::DEBUG);
+    let console = fmt::Layer::new().with_span_events(FmtSpan::CLOSE).pretty().with_filter(LevelFilter::DEBUG);
     tracing_subscriber::registry().with(console).init();
 
     let res = instrument_test().await;

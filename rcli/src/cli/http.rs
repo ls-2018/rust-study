@@ -1,4 +1,4 @@
-use crate::{process_http_serve, CmdExecutor};
+use crate::{CmdExecutor, process_http_serve};
 
 use super::verify_path;
 use clap::Parser;

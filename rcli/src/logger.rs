@@ -1,10 +1,10 @@
-use time::{macros::format_description, UtcOffset};
+use time::{UtcOffset, macros::format_description};
 use tracing_appender::{non_blocking::WorkerGuard, rolling};
 use tracing_subscriber::{
+    EnvFilter, Registry,
     fmt::{self, time::OffsetTime},
     layer::SubscriberExt,
     util::SubscriberInitExt,
-    EnvFilter, Registry,
 };
 
 pub fn init_logger() -> WorkerGuard {
@@ -14,10 +14,7 @@ pub fn init_logger() -> WorkerGuard {
     // 配置时区为东8区，
     let offset = UtcOffset::from_hms(8, 0, 0).unwrap_or(UtcOffset::UTC);
     // 时间格式为  年-月-日 时:分:秒 格式
-    let logger_time = OffsetTime::new(
-        offset,
-        format_description!("[year]-[month]-[day] [hour]:[minute]:[second]"),
-    );
+    let logger_time = OffsetTime::new(offset, format_description!("[year]-[month]-[day] [hour]:[minute]:[second]"));
 
     // 配置日志样式
     let format_layer = fmt::layer()
@@ -40,11 +37,7 @@ pub fn init_logger() -> WorkerGuard {
         .with_ansi(false) // 很多文本编辑器对颜色的处理不好，所以文件中禁用日志颜色
         .with_writer(non_blocking_appender); // 新增文件writer
 
-    Registry::default()
-        .with(env_filter)
-        .with(format_layer)
-        .with(file_layer)
-        .init();
+    Registry::default().with(env_filter).with(format_layer).with(file_layer).init();
     // 还记得这个guard变量么，这是一个守卫，生命周期需要贯穿整个主进程，所以我们在最后将他作为返回参数返回
     guard
 }

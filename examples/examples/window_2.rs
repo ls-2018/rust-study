@@ -1,4 +1,4 @@
-use anyhow::{anyhow, Result};
+use anyhow::{Result, anyhow};
 use std::collections::HashMap;
 use winnow::{
     ascii::{digit1, multispace0},
@@ -49,9 +49,7 @@ fn parse_json(input: &str) -> Result<JsonValue> {
     parse_value(input).map_err(|e: ErrMode<ContextError>| anyhow!("Failed to parse JSON: {:?}", e))
 }
 
-pub fn sep_with_space<Input, Output, Error, ParseNext>(
-    mut parser: ParseNext,
-) -> impl Parser<Input, (), Error>
+pub fn sep_with_space<Input, Output, Error, ParseNext>(mut parser: ParseNext) -> impl Parser<Input, (), Error>
 where
     Input: Stream + StreamIsPartial,
     <Input as Stream>::Token: AsChar + Clone,
@@ -83,11 +81,7 @@ fn parse_num(input: &mut &str) -> PResult<Num> {
     if ret.is_ok() {
         let frac = digit1.parse_to::<i64>().parse_next(input)?;
         let v = format!("{}.{}", num, frac).parse::<f64>().unwrap();
-        Ok(if sign {
-            Num::Float(-v as _)
-        } else {
-            Num::Float(v as _)
-        })
+        Ok(if sign { Num::Float(-v as _) } else { Num::Float(v as _) })
     } else {
         Ok(if sign { Num::Int(-num) } else { Num::Int(num) })
     }
@@ -190,24 +184,13 @@ mod tests {
         let input = r#"[1, 2, 3]"#;
         let result = parse_array(&mut (&*input))?;
 
-        assert_eq!(
-            result,
-            vec![
-                JsonValue::Number(Num::Int(1)),
-                JsonValue::Number(Num::Int(2)),
-                JsonValue::Number(Num::Int(3))
-            ]
-        );
+        assert_eq!(result, vec![JsonValue::Number(Num::Int(1)), JsonValue::Number(Num::Int(2)), JsonValue::Number(Num::Int(3))]);
 
         let input = r#"["a", "b", "c"]"#;
         let result = parse_array(&mut (&*input))?;
         assert_eq!(
             result,
-            vec![
-                JsonValue::String("a".to_string()),
-                JsonValue::String("b".to_string()),
-                JsonValue::String("c".to_string())
-            ]
+            vec![JsonValue::String("a".to_string()), JsonValue::String("b".to_string()), JsonValue::String("c".to_string())]
         );
         Ok(())
     }
@@ -227,11 +210,7 @@ mod tests {
         expected.insert("a".to_string(), JsonValue::Number(Num::Int(1)));
         expected.insert(
             "b".to_string(),
-            JsonValue::Array(vec![
-                JsonValue::Number(Num::Int(1)),
-                JsonValue::Number(Num::Int(2)),
-                JsonValue::Number(Num::Int(3)),
-            ]),
+            JsonValue::Array(vec![JsonValue::Number(Num::Int(1)), JsonValue::Number(Num::Int(2)), JsonValue::Number(Num::Int(3))]),
         );
         assert_eq!(result, expected);
 

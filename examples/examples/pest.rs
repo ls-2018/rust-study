@@ -1,5 +1,5 @@
-use anyhow::{anyhow, Result};
-use pest::{iterators::Pair, Parser};
+use anyhow::{Result, anyhow};
+use pest::{Parser, iterators::Pair};
 use pest_derive::Parser;
 use std::collections::HashMap;
 
@@ -30,9 +30,7 @@ fn main() -> Result<()> {
         }
     }"#;
 
-    let parsed = JsonParser::parse(Rule::json, s)?
-        .next()
-        .ok_or_else(|| anyhow!("json has no value"))?;
+    let parsed = JsonParser::parse(Rule::json, s)?.next().ok_or_else(|| anyhow!("json has no value"))?;
     let value = parse_value(parsed);
     println!("{:#?}", value);
     Ok(())
@@ -46,15 +44,8 @@ fn parse_object(pair: Pair<Rule>) -> Result<HashMap<String, JsonValue>> {
     let inner = pair.into_inner();
     let values = inner.map(|pair| {
         let mut inner = pair.into_inner();
-        let key = inner
-            .next()
-            .map(|p| p.as_str().to_string())
-            .ok_or_else(|| anyhow!("expected key in object, found none"))?;
-        let value = parse_value(
-            inner
-                .next()
-                .ok_or_else(|| anyhow!("expected value in object, found none"))?,
-        )?;
+        let key = inner.next().map(|p| p.as_str().to_string()).ok_or_else(|| anyhow!("expected key in object, found none"))?;
+        let value = parse_value(inner.next().ok_or_else(|| anyhow!("expected value in object, found none"))?)?;
         Ok((key, value))
     });
 
@@ -70,10 +61,7 @@ fn parse_value(pair: Pair<Rule>) -> Result<JsonValue> {
         Rule::array => JsonValue::Array(parse_array(pair)?),
         Rule::object => JsonValue::Object(parse_object(pair)?),
         Rule::value => {
-            let inner = pair
-                .into_inner()
-                .next()
-                .ok_or_else(|| anyhow!("expected value"))?;
+            let inner = pair.into_inner().next().ok_or_else(|| anyhow!("expected value"))?;
             parse_value(inner)?
         }
         v => {
@@ -155,14 +143,7 @@ mod tests {
         let input = r#"[1, 2, 3]"#;
         let parsed = JsonParser::parse(Rule::array, input)?.next().unwrap();
         let result = parse_value(parsed)?;
-        assert_eq!(
-            JsonValue::Array(vec![
-                JsonValue::Number(1.0),
-                JsonValue::Number(2.0),
-                JsonValue::Number(3.0)
-            ]),
-            result
-        );
+        assert_eq!(JsonValue::Array(vec![JsonValue::Number(1.0), JsonValue::Number(2.0), JsonValue::Number(3.0)]), result);
 
         Ok(())
     }

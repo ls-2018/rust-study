@@ -25,7 +25,7 @@ fn type__() {
     //  第一个结果可以表示为 u16，第二个则不能，所以会得到 250000  对 2**16的模
     assert_eq!(100_u16.wrapping_mul(200), 20000);
     assert_eq!(500_u16.wrapping_mul(500), 53392); // 250000 溢出，会取 余数     250000 % 2**16
-                                                  //  对有符号类型的运算可能会回绕为负值
+    //  对有符号类型的运算可能会回绕为负值
     assert_eq!(500_i16.wrapping_mul(500), -12144);
     //  在移位运算中，移位距离会在值的大小范围内回绕，
     //  所以在 16 位类型中移动 17 位就相当于移动了 1 位
@@ -111,14 +111,6 @@ fn type__() {
     // 将命令行参数作为字符串的向量
     let languages: Vec<String> = std::env::args().skip(1).collect();
     for l in languages {
-        println!(
-            "{}: {}",
-            l,
-            if l.len() % 2 == 0 {
-                "functional"
-            } else {
-                "imperative"
-            }
-        );
+        println!("{}: {}", l, if l.len() % 2 == 0 { "functional" } else { "imperative" });
     }
 }

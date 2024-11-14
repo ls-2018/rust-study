@@ -211,14 +211,10 @@ fn a1() {
     let things = ["doorknob", "mushroom", "noodle", "giraffe", "grapefruit"];
 
     // 惊人的事实：在这个列表里生物的名字都是以奇数序的字母开头的
-    let (living, nonliving): (Vec<&str>, Vec<&str>) =
-        things.iter().partition(|name| name.as_bytes()[0].lt(&101));
+    let (living, nonliving): (Vec<&str>, Vec<&str>) = things.iter().partition(|name| name.as_bytes()[0].lt(&101));
 
     assert_eq!(living, vec!["doorknob"]);
-    assert_eq!(
-        nonliving,
-        vec!["mushroom", "noodle", "giraffe", "grapefruit"]
-    );
+    assert_eq!(nonliving, vec!["mushroom", "noodle", "giraffe", "grapefruit"]);
 }
 
 struct I32Range {
@@ -290,10 +286,7 @@ fn main2() {
     let mut word_frequency: HashMap<&str, u32> = HashMap::new();
     let record = word_frequency.entry("name").or_insert_with(|| 1);
 
-    word_frequency
-        .entry("c")
-        .and_modify(|count| *count += 1)
-        .or_insert(1);
+    word_frequency.entry("c").and_modify(|count| *count += 1).or_insert(1);
     println!("{:?}", "ערב טוב".chars().next());
     assert_eq!("ערב טוב".chars().next(), Some('ע'));
 

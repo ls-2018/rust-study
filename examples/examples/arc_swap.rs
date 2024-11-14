@@ -11,11 +11,13 @@ fn main() {
             config.store(new_conf);
         });
         for _ in 0..10 {
-            scope.spawn(|_| loop {
-                let cfg = config.load();
-                if !cfg.is_empty() {
-                    assert_eq!(**cfg, "New configuration");
-                    return;
+            scope.spawn(|_| {
+                loop {
+                    let cfg = config.load();
+                    if !cfg.is_empty() {
+                        assert_eq!(**cfg, "New configuration");
+                        return;
+                    }
                 }
             });
         }

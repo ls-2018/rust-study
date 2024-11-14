@@ -2,15 +2,15 @@
 
 use anyhow::Result;
 use axum::{
+    Json, Router,
     extract::State,
     routing::{get, patch},
-    Json, Router,
 };
 use serde::{Deserialize, Serialize};
 use std::sync::{Arc, Mutex};
 use tokio::net::TcpListener;
 use tracing::{info, instrument};
-use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt, Layer as _};
+use tracing_subscriber::{Layer as _, layer::SubscriberExt, util::SubscriberInitExt};
 
 #[derive(Debug, Clone, PartialEq, Serialize)]
 struct User {
@@ -31,10 +31,7 @@ async fn user_handler(State(user): State<Arc<Mutex<User>>>) -> Json<User> {
 }
 
 #[instrument]
-async fn update_handler(
-    State(user): State<Arc<Mutex<User>>>,
-    Json(user_update): Json<UserUpdate>,
-) -> Json<User> {
+async fn update_handler(State(user): State<Arc<Mutex<User>>>, Json(user_update): Json<UserUpdate>) -> Json<User> {
     let mut user = user.lock().unwrap();
     if let Some(age) = user_update.age {
         user.age = age;
@@ -57,10 +54,7 @@ async fn main() -> Result<()> {
     let listener = TcpListener::bind(addr).await?;
     info!("Listening on: {}", addr);
 
-    let app = Router::new()
-        .route("/", get(user_handler))
-        .route("/", patch(update_handler))
-        .with_state(user);
+    let app = Router::new().route("/", get(user_handler)).route("/", patch(update_handler)).with_state(user);
     axum::serve(listener, app.into_make_service()).await?;
 
     Ok(())
