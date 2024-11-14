@@ -4,6 +4,7 @@
 mod _async;
 mod add;
 mod async_client;
+mod barrier;
 mod base;
 mod class;
 mod debug;
@@ -18,6 +19,7 @@ mod io;
 mod iter;
 mod r#match;
 mod module;
+mod mutex;
 mod panic;
 mod parse;
 mod pbj;
@@ -39,8 +41,6 @@ mod vec;
 mod vegetables;
 mod web;
 mod width_ref;
-mod mutex;
-mod barrier;
 
 #[allow(unused_imports)]
 #[allow(unused_variables)]
