@@ -1,5 +1,19 @@
 [workspace]
-members = ["base", "rcli", "macros", "examples", "grpc", "error-code-02"]
+members = [
+    "macro_pro",
+    "hello_macro",
+    "hello_macro_derive",
+    "hello_macro_attribute",
+    "hello_macro_func",
+
+    "base",
+    "rcli",
+    "macros",
+    "examples",
+    "grpc",
+    "error-code-02",
+    "async_pkg",
+]
 resolver = "2"
 
 [workspace.dependencies]
@@ -241,7 +255,7 @@ rustc-demangle = "0.1.24"
 # 用于将一组 C/C++/Assembly/CUDA 文件编译成静态存档，以便 Cargo 链接到正在构建的包中。
 cc = "1.2"
 # 提供堆栈展开功能的库，这在处理异常时非常有用。
-unwind="0.4.2"
+unwind = "0.4.2"
 #用于确定Unicode字符宽度的库，这在文本渲染和处理中特别有用，有助于文本格式化。
 unicode-width = "0.2.0"
 
