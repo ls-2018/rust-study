@@ -20,8 +20,8 @@ struct User {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::{KEY_PEM, PUB_CEM};
     use anyhow::Error;
+    use examples::{KEY_PEM, PUB_CEM};
     use jwt_simple::prelude::*;
 
     #[test]

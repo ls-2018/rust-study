@@ -2,6 +2,7 @@
 name = "hello_macro_func"
 version = "0.1.0"
 edition = "2024"
+description = "函数宏"
 
 [lib]
 proc-macro = true

@@ -5,8 +5,8 @@ edition = "2021"
 license = "MIT"
 
 [dependencies]
+error-code = { path = "error-code" }
 anyhow = { workspace = true }
-base = { workspace = true }
 axum = { workspace = true }
 base64 = { workspace = true }
 blake3 = { workspace = true }
@@ -53,7 +53,6 @@ prost = { workspace = true }
 prost-build = { workspace = true }
 prost-types = { workspace = true }
 proto-builder-trait = { workspace = true }
-criterion = { workspace = true }
 loom = { workspace = true }
 tonic-build = { workspace = true }
 arc-swap = { workspace = true }
@@ -78,13 +77,17 @@ cc = { workspace = true }
 cfg-if = { workspace = true }
 ahash = { workspace = true }
 unicode-width = { workspace = true }
-unwind = { workspace = true }
+actix-web= { workspace = true }
+async-std.workspace = true
+lazy_static.workspace = true
+surf.workspace = true
+
+[dev-dependencies]
+criterion = { workspace = true }
 
 
 [build-dependencies]
 cc = { workspace = true }
-
-
 
 #pest =  { workspace = true }
 #pest_derive =  { workspace = true }

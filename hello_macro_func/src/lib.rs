@@ -1,9 +1,9 @@
 use proc_macro::TokenStream;
 
-#[proc_macro]
-pub fn sql(input: TokenStream) -> TokenStream {
-    let x = "";
-    x.parse().unwrap()
-}
+use std::str::FromStr;
 
-//  let sql = sql!(SELECT * FROM posts WHERE id=1);
+#[proc_macro]
+pub fn func(_input: TokenStream) -> TokenStream {
+    let output = format!("fn generated_function(a: i32, b: i32) -> i32 {{ a + b }}");
+    TokenStream::from_str(&*output).unwrap()
+}

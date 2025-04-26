@@ -14,6 +14,7 @@ struct User {
     skills: Vec<String>,
 }
 
+#[test]
 fn main() -> Result<()> {
     let user = User {
         name: "Alice".to_string(),

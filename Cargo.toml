@@ -1,26 +1,19 @@
 [workspace]
+resolver = "2"
 members = [
-    "macro_pro",
-    "hello_macro",
-    "hello_macro_derive",
-    "hello_macro_attribute",
-    "hello_macro_func",
-
-    "base",
+    "hello_macro_derive", # 派生宏
+    "hello_macro_attribute", # 属性宏
+    "hello_macro_func", # 函数宏
+    "hello_macro_rules", # 声明宏
     "rcli",
-    "macros",
+    "hello_macro_derive",
     "examples",
     "grpc",
-    "error-code-02",
     "async_pkg",
 ]
-resolver = "2"
 
 [workspace.dependencies]
-macros = { path = "macros" }
-examples = { path = "examples" }
-rcli = { path = "rcli" }
-base = { path = "base" }
+macros = { path = "hello_macro_derive" }
 anyhow = "1.0.91"
 enum_dispatch = "0.3.13"
 num_enum = "0.5.11" # num 和 enum 互相转换
@@ -39,7 +32,7 @@ clap = { version = "4.5.21", features = ["derive"] }
 dialoguer = { version = "0.11.0", features = ["history", "completion", "fuzzy-matcher", "fuzzy-select", ] }
 csv = "1.3.1"
 ed25519-dalek = "2.1.1"
-time = { version = "0.3.36", features = ["formatting", "parsing", "macros", "std", "local-offset"] }
+time = { version = "0.3.41", features = ["formatting", "parsing", "macros", "std", "local-offset"] }
 
 tower = "0.4.13"
 tower-http = { version = "0.5.2", features = ["compression-full", "cors", "trace", "fs"] }
@@ -48,7 +41,7 @@ axum = { version = "0.7.7", features = ["http2", "query", "tracing", "multipart"
 axum-extra = { version = "0.9.4", features = ["typed-header"] }
 typed-builder = "0.20.0"
 
-actix-web = "4.9.0"
+actix-web = "4.10.2"
 # 随机密码
 zxcvbn = "3.1.0"
 sqlx = { version = "0.8.2", features = ["postgres", "mysql", "runtime-tokio", "tls-rustls", "chrono", ] }
@@ -210,11 +203,10 @@ pest = { version = "2.7.14", features = ["pretty-print"] }
 pest_derive = "2.7.14"
 signal-hook = "0.3"
 
-wasmtime = "12.0.2"
-wasmtime-wasi = "12.0.2"
+
 
 # bench 性能测试
-criterion = "0.3.6"
+criterion = "0.5.1"
 tempfile = "3.14.0"
 lru = "0.9.0"
 uluru = "3.1.0"
@@ -255,10 +247,12 @@ rustc-demangle = "0.1.24"
 # 用于将一组 C/C++/Assembly/CUDA 文件编译成静态存档，以便 Cargo 链接到正在构建的包中。
 cc = "1.2"
 # 提供堆栈展开功能的库，这在处理异常时非常有用。
-unwind = "0.4.2"
+#unwind = "0.4.2"
 #用于确定Unicode字符宽度的库，这在文本渲染和处理中特别有用，有助于文本格式化。
 unicode-width = "0.2.0"
 
+wasmtime = "12.0.2"
+wasmtime-wasi = "12.0.2"
 
 [patch.crates-io]
 
@@ -278,4 +272,3 @@ unicode-width = "0.2.0"
 #    "Win32_System_Threading",
 #    "Win32_System_ProcessStatus",
 #] }
-

@@ -1,16 +1,15 @@
 use loom::sync::Mutex;
 use loom::sync::atomic::AtomicUsize;
 use loom::thread;
-
 use std::rc::Rc;
 use std::sync::atomic::Ordering::SeqCst;
 
 #[test]
-fn mutex_enforces_mutal_exclusion() {
+fn mutex_enforces_mutual_exclusion() {
     loom::model(|| {
         let data = Rc::new((Mutex::new(0), AtomicUsize::new(0)));
 
-        let ths: Vec<_> = (0..2)
+        let this: Vec<_> = (0..2)
             .map(|_| {
                 let data = data.clone();
 
@@ -23,7 +22,7 @@ fn mutex_enforces_mutal_exclusion() {
             })
             .collect();
 
-        for th in ths {
+        for th in this {
             th.join().unwrap();
         }
 

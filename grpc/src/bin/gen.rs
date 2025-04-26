@@ -10,6 +10,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     fs::create_dir_all(OUT_DIR).unwrap();
     tonic_build::configure()
         .build_server(true)
+        .build_client(true)
         .out_dir(OUT_DIR)
         .with_serde(&["User"], true, true, Some(&[r#"#[serde(rename_all = "camelCase")]"#]))
         .with_sqlx_from_row(&["User"], None)

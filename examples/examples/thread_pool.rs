@@ -7,6 +7,10 @@ use std::{
     time::Duration,
 };
 
+// 获取了上下文环境变量的所有权，对应 FnOnce。
+// 只获取了上下文环境变量的 &mut 引用，对应 FnMut。
+// 只获取了上下文环境变量的 & 引用，对应 Fn。
+
 type Job = Box<dyn FnOnce() + Send + 'static>;
 
 #[allow(dead_code)]

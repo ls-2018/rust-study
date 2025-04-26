@@ -2,7 +2,7 @@
 name = "hello_macro_attribute"
 version = "0.1.0"
 edition = "2024"
+description = "属性宏"
 
 [lib]
 proc-macro = true
-
