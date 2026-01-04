@@ -1,6 +1,9 @@
 ```
 #[derive(Eq, PartialEq, Ord, PartialOrd)]
 
+Partial不能与自身比较
+
+
 Clone, 用来从 &T 创建副本 T。
 Copy，使类型具有 “复制语义”（copy semantics）而非 “移动语义”（move semantics）。
 

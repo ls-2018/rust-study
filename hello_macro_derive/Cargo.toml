@@ -6,7 +6,25 @@ license = "MIT"
 description = "派生宏"
 
 [lib]
+#name="macros"
+path = "src/lib.rs"
 proc-macro = true
+#crate_name = "macros" # 编译后的 crate 名称（链接时使用）
+#crate_type = ["rlib", "cdylib"]
+#rlib：Rust 静态库（默认，供 Rust 项目依赖）
+#dylib：Rust 动态库（供 Rust 项目动态链接）
+#cdylib：C 兼容动态库（供 C/C++ 等其他语言调用）
+#staticlib：C 兼容静态库（供其他语言静态链接）
+#proc-macro：过程宏库（仅当项目是过程宏时使用）
+
+
+#
+#[lib.target.'cfg(windows)']
+#crate-type = ["dylib"]
+#
+#[lib.target.'cfg(unix)']
+#crate-type = ["rlib"]
+
 
 [dependencies]
 darling.workspace = true
